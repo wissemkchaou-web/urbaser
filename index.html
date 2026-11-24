@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boolanga for Urbaser Bahrain: Safety and PPE Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=Comfortaa:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f0f2f0;--surface:#ffffff;--surface-2:#f4f5f3;--surface-3:#e5e8e4;
+  --ink:#15171c;--ink-2:#363a44;--muted:#626875;
+  --line:rgba(21,23,28,.10);--line-2:rgba(21,23,28,.18);
+  --accent:#3D4A8A;--accent-ink:#ffffff;--accent-soft:rgba(61,74,138,.08);--accent-line:rgba(61,74,138,.28);
+  --hivis:#d4ee2a;--reflect:#c3c7ce;
+  --ok:#16794a;--ok-soft:rgba(22,121,74,.10);
+  --warn:#a85a00;--warn-soft:rgba(214,138,0,.14);
+  --bad:#b4342a;--bad-soft:rgba(180,52,42,.10);
+  --on-status:#ffffff;
+  --grad-1:#1a1d3a;--grad-2:#5a6bb5;
+  --frame:#1b1d23;--overlay:rgba(12,14,20,.45);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#101216;--surface:#171a20;--surface-2:#1d2128;--surface-3:#262b34;
+    --ink:#eceef2;--ink-2:#c4c8d2;--muted:#8f95a2;
+    --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.15);
+    --accent:#97a4f2;--accent-ink:#101216;--accent-soft:rgba(151,164,242,.12);--accent-line:rgba(151,164,242,.38);
+    --hivis:#d9f23a;--reflect:#5c626d;
+    --ok:#4ade80;--ok-soft:rgba(74,222,128,.12);
+    --warn:#fbbf24;--warn-soft:rgba(251,191,36,.13);
+    --bad:#f87171;--bad-soft:rgba(248,113,113,.13);
+    --on-status:#101216;
+    --grad-1:#c4c9e8;--grad-2:#7383d8;
+    --frame:#2c3039;--overlay:rgba(0,0,0,.62);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#101216;--surface:#171a20;--surface-2:#1d2128;--surface-3:#262b34;
+  --ink:#eceef2;--ink-2:#c4c8d2;--muted:#8f95a2;
+  --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.15);
+  --accent:#97a4f2;--accent-ink:#101216;--accent-soft:rgba(151,164,242,.12);--accent-line:rgba(151,164,242,.38);
+  --hivis:#d9f23a;--reflect:#5c626d;
+  --ok:#4ade80;--ok-soft:rgba(74,222,128,.12);
+  --warn:#fbbf24;--warn-soft:rgba(251,191,36,.13);
+  --bad:#f87171;--bad-soft:rgba(248,113,113,.13);
+  --on-status:#101216;
+  --grad-1:#c4c9e8;--grad-2:#7383d8;
+  --frame:#2c3039;--overlay:rgba(0,0,0,.62);
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--surface)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+.top-row{max-width:1260px;margin:0 auto;padding:14px 24px 8px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.wordmark{font-family:'Comfortaa',system-ui,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.04em;line-height:1;background:linear-gradient(135deg,var(--grad-1),var(--grad-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.prod{font-family:'Archivo',sans-serif;font-stretch:80%;font-weight:700;font-size:17px;padding-left:14px;border-left:1px solid var(--line-2);letter-spacing:-.01em}
+.prepared{font-size:13px;color:var(--muted)}
+.spacer{flex:1}
+.tabs{max-width:1260px;margin:0 auto;padding:0 12px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{background:none;border:none;border-bottom:3px solid transparent;padding:9px 12px 10px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap}
+.tabs button:hover{color:var(--ink)}
+.tabs button.active{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
+.band{height:7px;background:linear-gradient(to bottom,var(--hivis) 0 2px,var(--reflect) 2px 5px,var(--hivis) 5px 7px)}
+
+/* type and layout */
+main{max-width:1260px;margin:0 auto;padding:28px 24px 56px}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.ctx{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:4px}
+h1{font-family:'Archivo',sans-serif;font-stretch:78%;font-weight:800;font-size:clamp(28px,3.4vw,38px);letter-spacing:-.015em;line-height:1.05;margin:0 0 8px}
+h2{font-family:'Archivo',sans-serif;font-stretch:85%;font-weight:700;font-size:22px;letter-spacing:-.01em;margin:0 0 2px}
+h3{font-size:15px;font-weight:650;margin:0;letter-spacing:-.005em}
+.lede{color:var(--muted);margin:0;max-width:68ch}
+.grid{display:grid;gap:16px;margin-bottom:16px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(178px,1fr))}
+.two{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.split{grid-template-columns:minmax(0,1fr) 380px;align-items:start}
+@media (max-width:1000px){.two,.three,.split{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;min-width:0}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.kpi{padding:16px 18px}
+.kpi .k-label{font-size:13px;color:var(--muted);font-weight:500}
+.kpi .k-val{font-family:'Archivo',sans-serif;font-stretch:75%;font-weight:800;font-size:38px;line-height:1;letter-spacing:-.01em;margin:8px 0 6px;font-variant-numeric:tabular-nums}
+.kpi .k-val{white-space:nowrap}
+.kpi .k-val .cur{font-size:.42em;font-weight:700;margin-right:5px;letter-spacing:.02em;color:var(--muted)}
+.kpi .k-val.warn{color:var(--warn)}
+.kpi .k-val.bad{color:var(--bad)}
+.kpi .k-sub{font-size:12.5px;color:var(--muted)}
+.note{font-size:13px;color:var(--muted);border-left:3px solid var(--hivis);padding:4px 0 4px 12px;margin:16px 0 0;max-width:80ch}
+.sub{font-size:12.5px;color:var(--muted)}
+.muted{color:var(--muted)}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12.5px}
+.warn-t{color:var(--warn);font-weight:600}
+.empty{padding:22px;border:1px dashed var(--line-2);border-radius:12px;color:var(--muted);font-size:14px;text-align:center}
+
+/* chips and buttons */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);white-space:nowrap;border:1px solid transparent}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.chip.acc{background:var(--accent-soft);color:var(--accent)}
+button.chip{cursor:pointer;border-color:var(--line-2);background:var(--surface)}
+button.chip:hover{border-color:var(--accent);color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn.ghost:hover{background:var(--surface-2);filter:none}
+.btn.ok{background:var(--ok);color:var(--on-status)}
+.btn.bad{background:var(--bad);color:var(--on-status)}
+.btn.sm{font-size:12.5px;padding:6px 11px;border-radius:8px}
+.btn.block{width:100%}
+.link{background:none;border:none;color:var(--accent);font-weight:600;cursor:pointer;padding:0;font-size:13px}
+.input{background:var(--surface);border:1px solid var(--line-2);border-radius:9px;padding:9px 12px;font-size:14px;outline:none;min-width:0}
+.input:focus{border-color:var(--accent)}
+textarea.input{resize:vertical}
+.lbl{font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px}
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:9px;overflow:hidden}
+.seg button{border:none;background:none;padding:6px 11px;font-size:12.5px;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;margin:0 -18px;padding:0 18px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line-2);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tr.click{cursor:pointer}
+tr.click:hover td{background:var(--accent-soft)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+
+/* charts */
+.ch-grid{stroke:var(--line)}
+.ch-lab{fill:var(--muted);font-size:10px;font-family:'Inter',sans-serif}
+.ch-emp{stroke:var(--accent);fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.ch-ext{stroke:var(--warn);fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.ch-dot-emp{fill:var(--accent)}
+.ch-dot-ext{fill:var(--warn)}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.legend i{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.bar-row{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,2fr) 34px;gap:10px;align-items:center;font-size:13px;margin-bottom:9px}
+.bar{height:8px;border-radius:6px;background:var(--surface-3);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);border-radius:6px}
+.bar>i.ext{background:var(--warn)}
+.feed{display:flex;flex-direction:column;gap:10px;max-height:310px;overflow:auto}
+.feed-row{display:grid;grid-template-columns:42px minmax(0,1fr);gap:8px;font-size:13px}
+.flag-row{padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;flex-wrap:nowrap}
+.flag-row:last-of-type{border-bottom:none}
+.up{padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.up:last-child{border-bottom:none}
+
+/* ladders and timelines */
+.ladder{display:flex;flex-direction:column;gap:8px}
+.step{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;padding:10px 12px;border-radius:10px;border:1px solid var(--line)}
+.step .n{width:26px;height:26px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;font-weight:700;font-size:12px}
+.step.on{border-color:var(--accent-line);background:var(--accent-soft)}
+.step.on .n{background:var(--accent);color:var(--accent-ink)}
+.timeline{display:flex;flex-direction:column}
+.tl{display:grid;grid-template-columns:14px minmax(0,1fr);gap:10px;padding-bottom:10px;position:relative;font-size:14px}
+.tl .dot{width:10px;height:10px;border-radius:50%;background:var(--warn);margin-top:6px}
+.tl.okd .dot{background:var(--ok)}
+.tl:not(:last-child)::after{content:"";position:absolute;left:4.5px;top:20px;bottom:0;width:1px;background:var(--line-2)}
+.dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 16px;font-size:14px;margin:14px 0}
+.dl dt{color:var(--muted)}
+.dl dd{margin:0;font-weight:500}
+.status-banner{padding:11px 14px;border-radius:10px;font-weight:600;font-size:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.status-banner.ok{background:var(--ok-soft);color:var(--ok)}
+.status-banner.warn{background:var(--warn-soft);color:var(--warn)}
+.status-banner.bad{background:var(--bad-soft);color:var(--bad)}
+.status-banner.acc{background:var(--accent-soft);color:var(--accent)}
+.mini-card{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px}
+.mini-card.acc{border-color:var(--accent-line);background:var(--accent-soft)}
+
+/* devices */
+.phone-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.phone{width:370px;max-width:100%;background:var(--surface);border:10px solid var(--frame);border-radius:38px;overflow:hidden;display:flex;flex-direction:column;min-height:640px}
+.phone-bar{height:26px;display:flex;justify-content:center;align-items:center;flex-shrink:0}
+.phone-bar::before{content:"";width:86px;height:6px;border-radius:6px;background:var(--line-2)}
+.app-h{padding:4px 18px 12px;border-bottom:1px solid var(--line)}
+.app-body{padding:16px 18px 20px;flex:1;display:flex;flex-direction:column;gap:12px}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:14px;flex-shrink:0}
+.avatar.lg{width:58px;height:58px;font-size:19px}
+.list-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);cursor:pointer;text-align:left;width:100%}
+.list-item:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.photo{height:180px;border-radius:14px;background:repeating-linear-gradient(135deg,var(--surface-2) 0 12px,var(--surface-3) 12px 24px);display:grid;place-items:center;position:relative;overflow:hidden;color:var(--muted);font-size:13px;font-weight:500}
+.photo.scan::after{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--hivis);box-shadow:0 0 14px var(--hivis);animation:scan 1.2s linear infinite}
+.photo.done{background:var(--ok-soft)}
+@keyframes scan{from{top:0}to{top:calc(100% - 3px)}}
+@media (prefers-reduced-motion:reduce){.photo.scan::after{animation:none;top:50%}}
+.check-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line-2);font-size:14px}
+.done-mark{width:64px;height:64px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center;font-size:30px;margin:12px auto 0;font-weight:700}
+.mini-tabs{display:flex;border-bottom:1px solid var(--line);padding:0 10px}
+.mini-tabs button{flex:1;background:none;border:none;border-bottom:2px solid transparent;padding:10px 4px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+.mini-tabs button.on{color:var(--accent);border-bottom-color:var(--accent)}
+.kit-item{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.kit-item b{font-size:14px}
+
+/* training */
+.quiz-q{padding:14px 0;border-bottom:1px solid var(--line)}
+.opt{display:flex;width:100%;text-align:left;gap:10px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:9px;margin-top:6px;cursor:pointer;font-size:14px;background:var(--surface)}
+.opt:hover{border-color:var(--accent-line)}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+#quiz{scroll-margin-top:130px}
+.camp{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+.camp.live{border-color:var(--accent-line);background:var(--accent-soft)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0 8px}
+@media (max-width:520px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat b{display:block;font-family:'Archivo',sans-serif;font-stretch:78%;font-weight:800;font-size:24px;line-height:1.1}
+.stat span{font-size:12px;color:var(--muted)}
+
+/* overlays */
+.modal-bg{position:fixed;inset:0;background:var(--overlay);z-index:60;display:flex;justify-content:flex-end}
+.modal-bg.center{justify-content:center;align-items:center;padding:20px}
+.drawer{width:min(580px,100%);height:100%;background:var(--surface);overflow:auto;padding:calc(22px + env(safe-area-inset-top,0px)) 22px calc(28px + env(safe-area-inset-bottom,0px))}
+.dialog{width:min(640px,100%);max-height:calc(100% - 20px);overflow:auto;background:var(--surface);border-radius:16px;padding:24px}
+.section-title{margin:24px 0 10px}
+.letter{border:1px solid var(--line-2);border-radius:12px;padding:22px;background:var(--surface-2);font-size:14px;line-height:1.6}
+.letter p{margin:0 0 10px}
+.letter ul{margin:0 0 10px;padding-left:20px}
+.letter-h{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-2);padding-bottom:10px;margin-bottom:14px;flex-wrap:wrap}
+.sig{display:flex;gap:30px;margin-top:30px}
+.sig span{flex:1;border-top:1px solid var(--ink-2);padding-top:6px;font-size:12px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:80;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.footer{max-width:1260px;margin:0 auto;padding:0 24px 40px;color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* action plan */
+.act{display:flex;gap:18px;justify-content:space-between;align-items:center;border-left:4px solid var(--line-2)}
+.act.pr-high{border-left-color:var(--bad)}
+.act.pr-medium{border-left-color:var(--warn)}
+.act.pr-low{border-left-color:var(--accent)}
+.act-main{min-width:0;flex:1}
+.act-t{font-size:16.5px;margin:2px 0 4px}
+.act-why{margin:0 0 6px;color:var(--ink-2);font-size:14px;max-width:80ch}
+.act-imp{font-size:13px;color:var(--muted)}
+.act-imp b{color:var(--ok);font-weight:600}
+.act-side{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.act-side .btn{min-width:150px}
+.act-done{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border:1px dashed var(--line-2);border-radius:10px;color:var(--muted);font-size:14px}
+.today .chip{white-space:normal;text-align:left}
+@media (max-width:700px){.act{flex-direction:column;align-items:stretch}.act-side{flex-direction:row}}
+/* cost */
+.ch-bar{fill:var(--accent)}
+.ch-budget{stroke:var(--muted);fill:none;stroke-width:2;stroke-dasharray:5 4}
+.leak{padding:11px 0;border-bottom:1px solid var(--line)}
+.leak-total{padding-top:10px}
+.ok-t{color:var(--ok);font-weight:600}
+.price-in{width:84px;padding:6px 8px}
+/* throughput */
+.tp-grid{display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:end}
+@media (max-width:760px){.tp-grid{grid-template-columns:minmax(0,1fr)}}
+.tp-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hours{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px;height:180px;align-items:end}
+.hbar{display:flex;flex-direction:column;align-items:center;height:100%;gap:4px}
+.hcol{flex:1;width:100%;display:flex;align-items:flex-end}
+.hcol i{display:block;width:100%;background:var(--accent);border-radius:4px 4px 0 0;opacity:.8}
+.hcol i.hot{background:var(--warn);opacity:1}
+.hbar span{font-size:10px;color:var(--muted)}
+/* audit */
+.clause{padding:0}
+.clause-h{display:flex;align-items:center;gap:12px;width:100%;background:none;border:none;padding:16px 18px;cursor:pointer;text-align:left;flex-wrap:wrap}
+.clause-h:hover{background:var(--accent-soft)}
+.clause-n{min-width:56px;color:var(--accent);font-weight:600}
+.clause-t{flex:1;font-weight:600;min-width:180px}
+.clause-b{padding:0 18px 18px}
+.ev{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;flex-wrap:wrap}
+.ev .sub{text-align:right}
+
+/* login */
+.login{min-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px}
+.login-card{width:min(420px,100%);background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.login-in{padding:30px 30px 24px}
+.login-h{margin:20px 0 6px;font-size:32px}
+.login-form{display:flex;flex-direction:column;margin:22px 0 14px}
+.login .input{width:100%;margin-bottom:12px}
+.pw{position:relative}
+.pw .input{padding-right:64px}
+.pw .link{position:absolute;right:12px;top:11px}
+.login-err{color:var(--bad);font-size:13.5px;font-weight:600;min-height:20px;margin-bottom:8px}
+.login a{color:var(--accent);font-weight:600}
+.login-foot{margin-top:14px}
+.user{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+.user .avatar{width:28px;height:28px;font-size:11px}
+.today{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:-8px 0 20px}
+body.locked .top,body.locked main,body.locked .footer{display:none}
+body:not(.locked) #login{display:none}
+@media (max-width:640px){
+  .uname{display:none}
+  main{padding:20px 16px 48px}
+  .top-row{padding:12px 16px 6px}
+  .prepared,.prod{display:none}
+  .card{padding:16px}
+  .tbl-wrap{margin:0 -16px;padding:0 16px}
+}
+</style>
+</head>
+<body class="locked">
+<div id="login" class="login">
+  <div class="login-card">
+    <div class="band" aria-hidden="true"></div>
+    <div class="login-in">
+      <span class="wordmark">boolanga</span>
+      <h1 class="login-h">Safety and PPE Control</h1>
+      <p class="lede">Urbaser Bahrain workspace. Sign in with the details Boolanga sent you.</p>
+      <div id="loginForm" class="login-form">
+        <label class="lbl" for="lgEmail">Work email</label>
+        <input id="lgEmail" class="input" type="email" autocomplete="username" spellcheck="false" placeholder="name@urbaser.com">
+        <label class="lbl" for="lgPass">Password</label>
+        <div class="pw"><input id="lgPass" class="input" type="password" autocomplete="current-password"><button type="button" class="link" id="pwToggle" aria-label="Show password">Show</button></div>
+        <div class="login-err" id="lgErr" role="alert"></div>
+        <button class="btn block" type="button" id="lgBtn">Sign in</button>
+      </div>
+      <p class="sub">Trouble signing in? Email <a href="mailto:hamdan@boolanga.com?subject=Urbaser%20workspace%20access">hamdan@boolanga.com</a></p>
+    </div>
+  </div>
+  <p class="sub login-foot">Demonstration workspace with sample data.</p>
+</div>
+<header class="top">
+  <div class="top-row">
+    <span class="wordmark">boolanga</span>
+    <span class="prod">Safety and PPE Control</span>
+    <span class="prepared">Urbaser Bahrain workspace</span>
+    <span class="spacer"></span>
+    <span class="chip acc">Sample data</span>
+    <button class="btn ghost sm" data-action="reset">Reset demo</button>
+    <span class="user"><span class="avatar">MB</span><span class="uname">Mohamed Bouhafs</span></span>
+    <button class="btn ghost sm" data-action="signOut">Sign out</button>
+    <a class="btn sm" href="mailto:hamdan@boolanga.com?subject=Urbaser%20x%20Boolanga">Book a call</a>
+  </div>
+  <nav class="tabs" id="tabs" aria-label="Sections">
+    <button data-view="overview">Overview</button>
+    <button data-view="actions">Action plan</button>
+    <button data-view="cost">Cost and budget</button>
+    <button data-view="workforce">Workforce</button>
+    <button data-view="patrol">Patrol app</button>
+    <button data-view="gate">Landfill gate</button>
+    <button data-view="training">Training</button>
+    <button data-view="worker">Worker app</button>
+    <button data-view="requests">Requests</button>
+    <button data-view="audit">Audit pack</button>
+  </nav>
+  <div class="band" aria-hidden="true"></div>
+</header>
+<main id="main"></main>
+<footer class="footer"><span>Sample data for demonstration. Rules, ladders and modules are set up to match Urbaser’s own procedures.</span><span>boolanga.com</span></footer>
+<div id="modal"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+var TODAY=new Date();TODAY.setHours(12,0,0,0);
+var DAY=864e5;
+function ago(n){return new Date(TODAY.getTime()-n*DAY);}
+function fmt(d){return d?d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'none';}
+function fmtS(d){return d?d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'none';}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function daysSince(d){return Math.floor((TODAY-d)/DAY);}
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function nowTime(){var d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function initials(n){return n.split(' ').map(function(s){return s[0];}).slice(0,2).join('');}
+function mask(c){return c.slice(0,4)+'•••'+c.slice(-2);}
+
+var ITEMS={
+  sumCov:{n:'Summer coverall, reflective stripes',c:6},
+  winCov:{n:'Winter coverall, reflective stripes',c:12},
+  drvSum:{n:'Driver uniform, summer',c:6},
+  drvWin:{n:'Driver uniform, winter',c:12},
+  vest2:{n:'Hi-vis vest, class 2',c:6},
+  vest3:{n:'Hi-vis vest, class 3 (night)',c:6},
+  shoes:{n:'Safety shoes S3',c:12},
+  gloves:{n:'Work gloves',c:1,one:false},
+  cap:{n:'Sun cap with neck flap',c:6,one:true},
+  mask:{n:'Dust mask FFP2',c:1,one:true},
+  lfCov:{n:'Landfill coverall',c:6},
+  helmet:{n:'Safety helmet',c:24,one:true},
+  goggles:{n:'Safety goggles',c:12,one:true}
+};
+var ROLES={
+  cleanD:{l:'Street cleaner, day',ct:'Urban services',kit:['sumCov','winCov','vest2','shoes','gloves','cap','mask'],chk:['Coverall with reflective stripes','Hi-vis vest','Safety shoes','Work gloves','Sun cap']},
+  cleanN:{l:'Street cleaner, night',ct:'Urban services',kit:['sumCov','winCov','vest3','shoes','gloves','cap'],chk:['Coverall with reflective stripes','Hi-vis vest, class 3','Safety shoes','Work gloves']},
+  driver:{l:'Collection driver',ct:'Urban services',kit:['drvSum','drvWin','vest2','shoes'],chk:['Driver uniform','Hi-vis vest','Safety shoes']},
+  helper:{l:'Collection helper',ct:'Urban services',kit:['sumCov','winCov','vest2','shoes','gloves','mask'],chk:['Coverall with reflective stripes','Hi-vis vest','Safety shoes','Work gloves','Dust mask']},
+  lfOp:{l:'Landfill operator',ct:'Landfill',kit:['lfCov','helmet','goggles','vest2','shoes','gloves','mask'],chk:['Landfill coverall','Safety helmet','Hi-vis vest','Safety shoes','Work gloves','Goggles']},
+  lfGate:{l:'Gate and weighbridge',ct:'Landfill',kit:['drvSum','drvWin','vest2','shoes'],chk:['Uniform','Hi-vis vest','Safety shoes']}
+};
+var LADDER_INT=[
+  {t:'On-the-spot correction',d:'Photo saved as evidence. A 4-minute PPE refresher with quiz goes to the worker’s app.'},
+  {t:'Written warning',d:'Second violation in 90 days. Supervisor notified, induction retaken with quiz.'},
+  {t:'HR referral',d:'Third violation in 90 days. HR receives the case with the full track record.'}
+];
+var DONE_INT=[
+  ['Photo evidence stored','PPE refresher sent to the worker’s app','Visible in the management view'],
+  ['Photo evidence stored','Written warning generated','Supervisor notified','Induction retake assigned'],
+  ['Photo evidence stored','HR referral opened with the full track record','Supervisor notified']
+];
+var LADDER_EXT=[
+  {t:'Control-room induction',d:'Induction video in the driver’s language, quiz with a 6/9 pass mark, digital signature against the CPR.'},
+  {t:'Warning letter to the company',d:'Letter generated and emailed to the hauling company for signature. Counts on their scorecard.'},
+  {t:'Ban from Askar Landfill',d:'The CPR is blocked at the gate and the company is notified automatically.'}
+];
+var EXT_V=['PPE removed after gate','Over speeding','Overtaking inside landfill','Smoking inside perimeter','Dumping outside tipping area'];
+var REASONS={'Replacement':['Worn out','Damaged'],'Size change':['Too small','Too big'],'Material issue':['Heat','Skin irritation','Tears easily'],'Lost item':['Lost']};
+var MAT_BASE={sumCov:{'Heat':12,'Skin irritation':8,'Tears easily':2},drvSum:{'Heat':5,'Skin irritation':1},vest2:{'Heat':3}};
+var SIZES=['S','M','L','XL','XXL'];
+var FIRST=['Rahim','Mohammed','Abdul','Suresh','Ramesh','Anil','Karim','Shafiq','Imran','Bilal','Arjun','Dinesh','Ravi','Sunil','Hassan','Yusuf','Faisal','Nabil','Prakash','Gopal','Kamal','Jamal','Rafiq','Sajid','Tariq','Joseph','Thomas','Binod','Hari','Ali','Ahmed','Omar','Ibrahim','Samuel','Ajay','Manoj','Santosh','Nizam'];
+var LAST=['Uddin','Khan','Hossain','Kumar','Thapa','Ahmed','Rahman','Pillai','Nair','Singh','Islam','Gurung','Ali','Hassan','Shrestha','Perera','Fernando','Mia','Sheikh','Yadav','Okello','Bashir','Qureshi','Das','Rai'];
+var OFFICERS=['S. Menon','A. Rahman','J. Fernando'];
+var PATROLLERS=['K. Thapa','F. Qureshi','R. Das'];
+var ROUTE=[3,15,26,38];
+var WORKER_PERSONAS=[16,2,26,38];
+var WEEKS=['W36','W37','W38','W39','W40','W41','W42','W43','W44','W45','W46','W47'];
+var SER_EMP=[84,85,85,87,86,88,89,88,90,91,91,92];
+var SER_EXT=[71,73,72,75,77,76,79,81,83,84,86,88];
+var QUIZ=[
+  ['Is wearing PPE mandatory at all times inside Askar Landfill?',['Yes, from the gate until you leave','Only while dumping','Only at the gate check'],0],
+  ['Is overtaking another vehicle allowed inside the landfill?',['Yes, if the road looks clear','No, never','Only for empty trucks'],1],
+  ['Is smoking allowed anywhere within the Askar Landfill perimeter?',['Only inside the truck cabin','Only in the waiting area','No, nowhere'],2],
+  ['Why is speeding especially dangerous inside a landfill?',['Roads are unpaved and the ground can shift','It uses more fuel','It is only dangerous at night'],0],
+  ['Where may you dump your load?',['Anywhere flat','Only at the active tipping area, as directed','Next to the weighbridge'],1],
+  ['Which PPE is required for manual unloading?',['Hi-vis vest only','Hi-vis vest, safety shoes and gloves','None if you are quick'],1],
+  ['What happens if you remove your vest after passing the gate?',['Nothing, the gate check is done','It is recorded as a violation against your CPR','Only your truck gets a warning'],1],
+  ['When must goggles be worn?',['During manual dumping or in dusty conditions','Never','Only at night'],0],
+  ['You see an unsafe situation on site. What do you do?',['Keep moving, it is not your job','Stop safely and report it to the control room or a patroller','Mention it on your next visit'],1]
+];
+var MODULES=[
+  ['Askar Landfill site induction','Landfill users','Video, 6 min. Quiz of 9 questions, pass mark 6. English, Arabic, Hindi','First visit, and after a first on-site violation','1,284','96%'],
+  ['Driver conduct inside the landfill','Landfill users and collection drivers','Video, 3 min. 5 questions','After over speeding or overtaking','212','94%'],
+  ['PPE refresher','Own employees','4 min in the worker app. 5 questions','After a first PPE violation','58','98%'],
+  ['Night visibility and road safety','Night-shift street cleaners','5 min. 5 questions','On joining night shift, then every 6 months','131','97%'],
+  ['Heat stress and hydration','All outdoor staff','4 min. 5 questions','Every April, before summer','1,402','99%']
+];
+var COMPANIES_INIT=[
+  {n:'Delta Haulage',tpd:34,seen:61,ind:96,v:2,w:0,b:0},
+  {n:'Pearl Line Trucking',tpd:28,seen:49,ind:92,v:4,w:1,b:0},
+  {n:'Blue Palm Transport',tpd:22,seen:40,ind:78,v:9,w:3,b:1},
+  {n:'Seef Cargo Movers',tpd:19,seen:33,ind:88,v:3,w:1,b:0},
+  {n:'Crescent Waste Carriers',tpd:17,seen:31,ind:71,v:11,w:4,b:2},
+  {n:'North Star Removals',tpd:15,seen:26,ind:100,v:0,w:0,b:0},
+  {n:'Al Fajr Carriers',tpd:14,seen:29,ind:83,v:6,w:2,b:0},
+  {n:'Coral Bay Transport',tpd:12,seen:20,ind:95,v:1,w:0,b:0},
+  {n:'Desert Hawk Haulage',tpd:11,seen:24,ind:67,v:8,w:3,b:1},
+  {n:'Ruby Sands Logistics',tpd:9,seen:15,ind:93,v:1,w:0,b:0},
+  {n:'Green Path Recycling',tpd:8,seen:12,ind:100,v:0,w:0,b:0},
+  {n:'Gulfside Contracting',tpd:7,seen:14,ind:79,v:5,w:2,b:1}
+];
+function DRIVERS_INIT(){return [
+  {cpr:'870614523',name:'Mohammed Shafiq',co:'Delta Haulage',nat:'Pakistan',lang:'Urdu',ind:{d:ago(212),s:8},viol:[]},
+  {cpr:'910322871',name:'Binod Gurung',co:'Pearl Line Trucking',nat:'Nepal',lang:'Hindi',ind:{d:ago(19),s:7},viol:[{d:ago(19),t:'PPE removed after gate',a:'Control-room induction and quiz (7/9)'}]},
+  {cpr:'880917406',name:'Abdul Karim',co:'Blue Palm Transport',nat:'Bangladesh',lang:'Hindi',ind:{d:ago(64),s:6},viol:[{d:ago(64),t:'Over speeding',a:'Control-room induction and quiz (6/9)'},{d:ago(11),t:'Overtaking inside landfill',a:'Warning letter sent to Blue Palm Transport'}]},
+  {cpr:'850205118',name:'Suresh Kumar',co:'Crescent Waste Carriers',nat:'India',lang:'Hindi',ind:{d:ago(77),s:6},viol:[{d:ago(77),t:'PPE removed after gate',a:'Control-room induction and quiz (6/9)'},{d:ago(33),t:'Over speeding',a:'Warning letter sent to Crescent Waste Carriers'},{d:ago(6),t:'PPE removed after gate',a:'Banned from Askar Landfill'}]},
+  {cpr:'930811264',name:'Joseph Okello',co:'Desert Hawk Haulage',nat:'Uganda',lang:'English',ind:null,viol:[]},
+  {cpr:'900127735',name:'Ahmed Saleh',co:'Al Fajr Carriers',nat:'Egypt',lang:'Arabic',ind:{d:ago(45),s:9},viol:[]},
+  {cpr:'890430652',name:'Kasun Perera',co:'Coral Bay Transport',nat:'Sri Lanka',lang:'English',ind:{d:ago(300),s:7},viol:[]},
+  {cpr:'920718390',name:'Emeka Obi',co:'Gulfside Contracting',nat:'Nigeria',lang:'English',ind:{d:ago(30),s:6},viol:[{d:ago(30),t:'Smoking inside perimeter',a:'Control-room induction and quiz (6/9)'}]}
+];}
+var HEAD={cleanD:820,cleanN:360,driver:190,helper:200,lfOp:18,lfGate:12};
+var PRICE0={sumCov:6.5,winCov:8.9,drvSum:7.2,drvWin:9.5,vest2:1.8,vest3:2.6,shoes:11.5,gloves:0.45,cap:0.9,mask:0.35,lfCov:9.8,helmet:4.2,goggles:1.9};
+var SHORT={sumCov:'summer coveralls',winCov:'winter coveralls',drvSum:'summer driver uniforms',drvWin:'winter driver uniforms',vest2:'vests',vest3:'night vests',shoes:'pairs of shoes',gloves:'pairs of gloves',cap:'caps',mask:'masks',lfCov:'landfill coveralls',helmet:'helmets',goggles:'goggles'};
+var LEAK=[
+  {k:'early',t:'Early replacements with no reason logged',q:{gloves:2140,vest2:260,vest3:70,sumCov:150,shoes:60},fix:'replacement only with a reason and photo in the app',rec:.7},
+  {k:'exit',t:'Kit not returned by leavers',q:{sumCov:180,winCov:120,shoes:150,vest2:140,vest3:40,drvSum:22},fix:'kit return built into the exit checklist',rec:.8,note:'188 of 205 leavers this year'},
+  {k:'dead',t:'Dead stock from size mismatch',q:{sumCov:260,winCov:90,shoes:70},fix:'order from the real size curve in the system',rec:.75},
+  {k:'lost',t:'Lost items',q:{gloves:310,vest2:95,cap:140,shoes:22,sumCov:40},fix:'every issue signed, repeat losses visible per worker',rec:.5}
+];
+var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'];
+var MONTH_W=[.07,.06,.07,.16,.07,.06,.06,.07,.06,.15,.07];
+var HOURS_SAVED=[
+  ['Issuing kit: paper form, then Excel entry, replaced by a tablet signature','11,940 issues a year, 3 minutes down to 40 seconds',464],
+  ['Looking up drivers in the Excel sheet at the gate','about 600 lookups a month, 2 minutes each',240],
+  ['Handling worker requests on paper and by phone','about 900 a year, 10 minutes each',150],
+  ['Collecting evidence before the audit','pack generated instead of gathered',50],
+  ['Compiling campaign reports by hand','2 campaigns a year, about 20 hours each',40]
+];
+var HOURS_T=[18,34,52,58,49,41,37,33,30,32,36,40,38,30,22,15];
+var HOURS_R=[12,31,48,52,29,14,9,8,6,7,9,14,11,6,5,2];
+function score(c){return Math.max(5,Math.min(100,Math.round(100-c.v*3-c.w*5-c.b*8-(100-c.ind)*0.6)));}
+
+var S;
+function initState(){
+  var R=rng(7);
+  function pick(a){return a[Math.floor(R()*a.length)];}
+  var mix=[['cleanD',14],['cleanN',9],['driver',7],['helper',7],['lfOp',3],['lfGate',2]];
+  var employees=[];var n=0;var used={};
+  mix.forEach(function(m){var role=m[0];for(var k=0;k<m[1];k++){
+    var name;do{name=pick(FIRST)+' '+pick(LAST);}while(used[name]);used[name]=1;
+    var id='UB-'+(10214+n*53);n++;
+    var r=ROLES[role];
+    var zone=r.ct==='Landfill'?'Askar Landfill':'Zone '+(1+Math.floor(R()*4));
+    var app=SIZES[Math.floor(R()*SIZES.length)],shoe=String(39+Math.floor(R()*7));
+    var items=r.kit.map(function(code){
+      var cyc=ITEMS[code].c*30;var x=R();var issued;
+      if(x<.015)issued=null;else if(x<.04)issued=ago(cyc+3+Math.floor(R()*25));else issued=ago(Math.floor(R()*cyc));
+      var sz=ITEMS[code].one?'One size':(code==='shoes'?shoe:app);
+      return {code:code,sz:sz,issued:issued,by:pick(OFFICERS)};
+    });
+    var viol=[];var y=R();var nv=y<.68?0:(y<.9?1:2);
+    for(var v=0;v<nv;v++)viol.push({date:ago(4+Math.floor(R()*80)),type:pick(['PPE: work gloves not worn','PPE: hi-vis vest not worn','PPE: safety shoes not worn','Conduct: unsafe road crossing']),by:'Patroller '+pick(PATROLLERS)});
+    viol.sort(function(a,b){return a.date-b.date;});
+    viol.forEach(function(v,i){v.action=LADDER_INT[Math.min(i,2)].t;});
+    var tr=[{m:'Heat stress and hydration',st:'Done',d:ago(205+Math.floor(R()*20)),s:'5/5'}];
+    if(role==='cleanN')tr.push({m:'Night visibility and road safety',st:'Done',d:ago(90+Math.floor(R()*60)),s:'4/5'});
+    viol.forEach(function(v){tr.push({m:'PPE refresher',st:'Done',d:v.date,s:'5/5'});});
+    employees.push({id:id,name:name,role:role,zone:zone,items:items,viol:viol,tr:tr});
+  }});
+  var E=employees;
+  [[5,'cap',null],[12,'gloves',40],[20,'vest3',200],[33,'mask',null],[37,'goggles',380]].forEach(function(f){var it=E[f[0]].items.filter(function(i){return i.code===f[1];})[0];if(it)it.issued=f[2]===null?null:ago(f[2]);});
+  S={
+    view:'overview',employees:E,drivers:DRIVERS_INIT(),
+    companies:COMPANIES_INIT.map(function(c){return Object.assign({},c);}),
+    requests:[
+      {id:'R-2048',e:E[2].id,type:'Material issue',item:'sumCov',reason:'Heat',note:'Very hot on afternoon shift, fabric does not breathe',d:ago(1),st:'Open'},
+      {id:'R-2047',e:E[9].id,type:'Replacement',item:'shoes',reason:'Worn out',note:'Sole split',d:ago(1),st:'Open'},
+      {id:'R-2046',e:E[16].id,type:'Material issue',item:'sumCov',reason:'Skin irritation',note:'Rash on arms and neck',d:ago(2),st:'Open'},
+      {id:'R-2045',e:E[24].id,type:'Size change',item:'vest2',reason:'Too small',note:'',d:ago(3),st:'Open'},
+      {id:'R-2044',e:E[30].id,type:'Lost item',item:'gloves',reason:'Lost',note:'',d:ago(4),st:'Issued'},
+      {id:'R-2043',e:E[18].id,type:'Replacement',item:'vest3',reason:'Damaged',note:'Reflective tape peeling',d:ago(6),st:'Issued'}
+    ],
+    reqSeq:0,
+    feed:[
+      {t:'09:14',x:'Gate: CPR 8706•••23 (Delta Haulage) passed the PPE check'},
+      {t:'09:02',x:'Patrol: '+E[3].name+' ('+E[3].id+') photo check, all PPE present'},
+      {t:'08:47',x:'Issued: work gloves to '+E[30].name+', signed on tablet by S. Menon'},
+      {t:'08:31',x:'Warning letter emailed to Blue Palm Transport for CPR 8809•••06'},
+      {t:'08:12',x:'Induction quiz passed 7/9, CPR 9103•••71, in Hindi'},
+      {t:'07:55',x:'Request R-2048 from '+E[2].name+': summer coverall, heat'}
+    ],
+    gateLog:[
+      {t:'09:14',c:'870614523',x:'Passed PPE check'},
+      {t:'09:11',c:'890430652',x:'Passed PPE check'},
+      {t:'09:06',c:'920718390',x:'Rejected: no safety shoes'},
+      {t:'08:58',c:'900127735',x:'Passed PPE check'}
+    ],
+    metrics:{kit:94.2,comp:91.6,ext:88.4,openViol:23,warn30:11,ban30:3,gateToday:212,rejToday:9,banned:17},
+    vtypes:[['No PPE at gate (rejected)',64,'ext'],['PPE removed after gate',38,'ext'],['Employees: PPE item missing',31,'int'],['Over speeding',27,'ext'],['Overtaking inside landfill',15,'ext'],['Dumping outside tipping area',9,'ext'],['Employees: unsafe road crossing',6,'int'],['Smoking inside perimeter',4,'ext']],
+    f:{q:'',ct:'All contracts',st:'All statuses'},
+    p:{step:'pick',id:null,missing:[],type:'',outcome:'random'},
+    g:{cpr:'',looked:false,found:null,reg:null,msg:null,vtype:EXT_V[0],letterFor:null},
+    quiz:{ans:{},done:false,score:0,forCpr:null},
+    w:{id:E[16].id,tab:'kit',type:'Material issue',reason:'Heat',item:E[16].items[0].code,note:''},
+    rf:'open',
+    prices:Object.assign({},PRICE0),budget:80000,
+    act:{mode:'daily',done:{}},
+    audOpen:{'8.1.4.2':true}
+  };
+}
+
+/* helpers */
+function emp(id){for(var i=0;i<S.employees.length;i++)if(S.employees[i].id===id)return S.employees[i];return null;}
+function drv(c){for(var i=0;i<S.drivers.length;i++)if(S.drivers[i].cpr===c)return S.drivers[i];return null;}
+function company(n){for(var i=0;i<S.companies.length;i++)if(S.companies[i].n===n)return S.companies[i];return null;}
+function itemStatus(it){if(!it.issued)return 'missing';var cyc=ITEMS[it.code].c*30;var age=daysSince(it.issued);if(age>cyc)return 'overdue';if(age>cyc-Math.min(30,cyc*.25))return 'due';return 'ok';}
+function nextDue(it){return it.issued?new Date(it.issued.getTime()+ITEMS[it.code].c*30*DAY):null;}
+var ST={ok:['ok','In date'],due:['warn','Due soon'],overdue:['bad','Overdue'],missing:['bad','Not issued']};
+function empBad(e){return e.items.some(function(it){var s=itemStatus(it);return s==='missing'||s==='overdue';});}
+function v90c(e){return e.viol.filter(function(v){return daysSince(v.date)<=90;}).length;}
+function nextAction(e){
+  var miss=e.items.filter(function(i){return !i.issued;})[0];if(miss)return {t:'bad',x:'Issue now: '+ITEMS[miss.code].n};
+  var od=e.items.filter(function(i){return itemStatus(i)==='overdue';})[0];if(od)return {t:'bad',x:'Overdue: '+ITEMS[od.code].n};
+  var best=null;e.items.forEach(function(i){var d=nextDue(i);if(!best||d<best.d)best={d:d,c:i.code};});
+  var soon=(best.d-TODAY)/DAY<=30;
+  return {t:soon?'warn':'',x:fmtS(best.d)+', '+ITEMS[best.c].n.toLowerCase()};
+}
+function addFeed(x){S.feed.unshift({t:nowTime(),x:x});}
+function addGate(c,x){S.gateLog.unshift({t:nowTime(),c:c,x:x});}
+function bump(label){S.vtypes.forEach(function(v){if(v[0]===label)v[1]++;});}
+function drvStatus(d){
+  if(d.viol.length>=3)return ['bad','Banned. Do not admit'];
+  if(d.viol.length===2)return ['warn','Warning letter issued. Next violation means a ban'];
+  if(d.viol.length===1)return ['warn','On watch: one violation on record'];
+  if(!d.ind)return ['warn','No induction on record'];
+  return ['ok','Clear to enter'];
+}
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove('show');},3200);}
+function openModal(h){document.getElementById('modal').innerHTML=h;document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('modal').innerHTML='';document.body.style.overflow='';}
+function pageHead(ctx,h,l,act){return '<div class="page-head"><div><div class="ctx">'+ctx+'</div><h1>'+h+'</h1><p class="lede">'+l+'</p></div>'+(act?'<div class="row">'+act+'</div>':'')+'</div>';}
+function kpi(l,v,s,tone){return '<div class="card kpi"><div class="k-label">'+l+'</div><div class="k-val '+(tone||'')+'">'+v+'</div><div class="k-sub">'+s+'</div></div>';}
+function point(t,d){return '<div><b>'+t+'.</b> <span class="muted">'+d+'</span></div>';}
+function chipFor(st){return st==='Open'?'warn':(st==='Declined'?'bad':'ok');}
+function pl(n,one,many){return n+' '+(n===1?one:many);}
+function bhd(v){return 'BHD '+Math.round(v).toLocaleString('en-US');}
+function bhdK(v){return '<span class="cur">BHD</span>'+Math.round(v).toLocaleString('en-US');}
+function sum(a){return a.reduce(function(x,y){return x+y;},0);}
+function drvShort(d){return d.viol.length>=3?'Banned':d.viol.length===2?'Final warning':d.viol.length===1?'On watch':!d.ind?'No induction':'Clear';}
+function goTo(go){
+  if(go.action){ACT[go.action]();return;}
+  if(go.cpr){S.view='gate';S.g.cpr=go.cpr;S.g.looked=true;S.g.found=drv(go.cpr)?go.cpr:null;S.g.msg=null;}
+  else if(go.view)S.view=go.view;
+  closeModal();render();window.scrollTo(0,0);
+}
+
+/* cost model: annual need from headcount and replacement cycles, leakage priced at current unit prices */
+function annualQty(code){var q=0;Object.keys(ROLES).forEach(function(r){if(ROLES[r].kit.indexOf(code)>=0)q+=HEAD[r]*12/ITEMS[code].c;});return Math.round(q);}
+function costModel(){
+  var P=S.prices,planned=0;
+  var rows=Object.keys(ITEMS).map(function(c){var q=annualQty(c);var v=q*P[c];planned+=v;return {c:c,q:q,v:v};});
+  var leaks=LEAK.map(function(l){var v=0;Object.keys(l.q).forEach(function(c){v+=l.q[c]*P[c];});return {l:l,v:v,rec:v*l.rec*12/11};});
+  var leak=sum(leaks.map(function(x){return x.v;})),rec=sum(leaks.map(function(x){return x.rec;}));
+  var plannedYtd=planned*11/12,actualYtd=plannedYtd+leak,budgetYtd=S.budget*11/12,ws=sum(MONTH_W);
+  return {rows:rows,planned:planned,leaks:leaks,leak:leak,rec:rec,actualYtd:actualYtd,budgetYtd:budgetYtd,
+    varPct:(actualYtd-budgetYtd)/budgetYtd*100,
+    monthsA:MONTH_W.map(function(w){return actualYtd*w/ws;}),monthsB:MONTH_W.map(function(w){return budgetYtd*w/ws;}),
+    forecast:actualYtd+planned/12+leak/11,perWorker:(actualYtd*12/11)/1600};
+}
+
+/* audit evidence, with gaps computed from live records */
+function auditData(){
+  var bad=S.employees.filter(empBad).length;
+  var trOpen=S.employees.filter(function(e){return e.tr.some(function(t){return t.st!=='Done';});}).length;
+  var ni=S.drivers.filter(function(d){return !d.ind;});
+  var C=[
+    {c:'7.2',t:'Competence',ev:[['Induction records for landfill users with CPR, date, language, score and signature','1,284 in 30 days, 14,920 in 12 months'],['Refresher training assigned after violations, with quiz results','58 in 30 days']],gaps:trOpen?[{t:pl(trOpen,'worker has','workers have')+' refresher training assigned but not completed',go:{view:'workforce'}}]:[]},
+    {c:'7.3',t:'Awareness',ev:[['Safety campaign results by person and company','Nov 2025: 301 people, 50+ companies'],['Answers per quiz question, showing which rules are misunderstood','9 questions, 3 languages']],gaps:[]},
+    {c:'7.5',t:'Documented information',ev:[['Every PPE issue with worker, item, size, officer and tablet signature','11,940 records'],['Full change history, nothing overwritten','every edit logged']],gaps:[],sample:'issue'},
+    {c:'8.1.2',t:'Eliminating hazards and reducing OH&S risks',ev:[['PPE requirement matrix per role','6 roles, 13 item types'],['Kit status per worker against that matrix','1,600 workers']],gaps:bad?[{t:pl(bad,'worker is','workers are')+' missing a required item or have one overdue',go:{action:'goNeeds'}}]:[],sample:'matrix'},
+    {c:'8.1.4.2',t:'Contractors',ev:[['Gate checks against the CPR for every landfill user','about 16,000 a month'],['Violations, warning letters and bans per driver and per company','11 letters, 3 bans in 30 days'],['Monthly scorecards sent to hauling companies','about 1,000 companies']],gaps:ni.length?[{t:pl(ni.length,'driver','drivers')+' on record with no induction',go:{cpr:ni[0].cpr}}]:[],sample:'gate'},
+    {c:'9.1',t:'Monitoring, measurement, analysis and performance evaluation',ev:[['PPE compliance rate from patrol photo checks, by week and zone','12-week trend'],['Gate rejection rate by hour','last 30 days']],gaps:[]},
+    {c:'10.2',t:'Incident, nonconformity and corrective action',ev:[['Each PPE or conduct violation with the corrective step taken','ladder applied every time'],['Accidents and near misses','kept in Urbaser’s group HSE system, referenced here']],gaps:[],sample:'viol'}
+  ];
+  var gaps=sum(C.map(function(c){return c.gaps.length;}));
+  return {C:C,gaps:gaps,ready:Math.round(100-gaps*2.7)};
+}
+
+/* daily and weekly recommendations, generated from the current records */
+var PR={High:0,Medium:1,Low:2};
+function buildActions(mode){
+  var A=[];
+  if(mode==='daily'){
+    var open=S.requests.filter(function(r){return r.st==='Open';});
+    var mat=open.filter(function(r){return r.type==='Material issue';});
+    if(open.length){var oldest=Math.max.apply(null,open.map(function(r){return daysSince(r.d);}));
+      A.push({id:'d-req',pr:mat.length?'High':'Medium',cat:'Requests',owner:'Safety officer',t:'Clear '+pl(open.length,'worker request','worker requests'),
+        why:(mat.length?pl(mat.length,'is a material complaint','are material complaints')+' on the summer coverall, heat and skin irritation. ':'')+'The oldest has waited '+pl(oldest,'day','days')+'.',
+        imp:'workers stop making do with worn or unsuitable kit',go:{view:'requests'},btn:'Open requests'});}
+    S.drivers.filter(function(d){return d.viol.length===2;}).forEach(function(d){var lv=d.viol[1];
+      A.push({id:'d-fw-'+d.cpr,pr:'High',cat:'Gate',owner:'Gate supervisor',t:'Brief the gate on '+d.name+', who is on a final warning',
+        why:d.co+'. Last violation: '+lv.t.toLowerCase()+' on '+fmtS(lv.d)+'. One more and he is banned.',
+        imp:'a repeat offender is stopped at the gate, not caught on the tipping face',go:{cpr:d.cpr},btn:'Open at the gate'});});
+    var ni=S.drivers.filter(function(d){return !d.ind;});
+    if(ni.length)A.push({id:'d-ni',pr:'High',cat:'Gate',owner:'Control room',t:'Induct '+pl(ni.length,'driver','drivers')+' before they enter again',
+      why:ni.map(function(d){return d.name+' ('+d.co+')';}).join(', ')+(ni.length===1?' has':' have')+' no induction on record.',
+      imp:'closes a contractor gap the auditor will look for',go:{cpr:ni[0].cpr},btn:'Open at the gate'});
+    var bad=S.employees.filter(empBad);
+    if(bad.length)A.push({id:'d-kit',pr:'Medium',cat:'Workforce',owner:'Safety officer',t:'Issue missing or overdue kit to '+pl(bad.length,'worker','workers'),
+      why:bad.slice(0,3).map(function(e){return e.name;}).join(', ')+(bad.length>3?' and '+(bad.length-3)+' more':'')+'.',
+      imp:'every worker leaves the accommodation fully equipped',go:{action:'goNeeds'},btn:'See the workers'});
+    var zc={},zt={},tot=0;
+    S.employees.forEach(function(e){if(ROLES[e.role].ct!=='Urban services')return;e.viol.forEach(function(v){if(daysSince(v.date)>90)return;tot++;zc[e.zone]=(zc[e.zone]||0)+1;zt[e.zone]=zt[e.zone]||{};zt[e.zone][v.type]=(zt[e.zone][v.type]||0)+1;});});
+    var zones=Object.keys(zc).sort(function(a,b){return zc[b]-zc[a];});
+    if(zones.length){var z=zones[0];var ty=Object.keys(zt[z]).sort(function(a,b){return zt[z][b]-zt[z][a];})[0].replace(/^(PPE|Conduct): /,'');
+      A.push({id:'d-zone',pr:'Medium',cat:'Patrol',owner:'Patrollers',t:'Start today’s patrol in '+z,
+        why:zc[z]+' of the last '+tot+' violations in urban services were in '+z+', mostly '+ty+'.',
+        imp:'patrol time goes where the problems are',go:{view:'patrol'},btn:'Open patrol app'});}
+    var tr=S.employees.filter(function(e){return e.tr.some(function(t){return t.st!=='Done';});});
+    if(tr.length)A.push({id:'d-tr',pr:'Low',cat:'Training',owner:'Safety officer',t:'Chase '+pl(tr.length,'worker','workers')+' with refresher training still open',
+      why:'Assigned after a PPE violation and not yet completed in the worker app.',
+      imp:'the training linked to each violation is closed, ready for the audit',go:{view:'workforce'},btn:'Open workforce'});
+  } else {
+    var m=costModel();var L={};m.leaks.forEach(function(x){L[x.l.k]=x;});
+    A.push({id:'w-exit',pr:'High',cat:'Leakage',owner:'HR and safety',t:'Add kit return to the exit checklist',
+      why:'188 of 205 leavers kept their kit this year, worth '+bhd(L.exit.v)+'.',imp:'about '+bhd(L.exit.rec)+' a year',go:{view:'cost'},btn:'See the numbers'});
+    A.push({id:'w-early',pr:'High',cat:'Leakage',owner:'Safety manager',t:'Require a reason and a photo for every early replacement',
+      why:bhd(L.early.v)+' spent this year on items replaced before their cycle with no reason logged, mostly gloves and vests.',imp:'about '+bhd(L.early.rec)+' a year',go:{view:'cost'},btn:'See the numbers'});
+    var ad=auditData();
+    if(ad.gaps)A.push({id:'w-audit',pr:'High',cat:'Audit',owner:'Safety manager',t:'Close '+pl(ad.gaps,'gap','gaps')+' in the audit pack before the auditor arrives',
+      why:ad.C.filter(function(c){return c.gaps.length;}).map(function(c){return 'Clause '+c.c+': '+c.gaps[0].t;}).join('. ')+'.',imp:'clean ISO 45001 evidence, no findings on PPE or contractors',go:{view:'audit'},btn:'Open audit pack'});
+    var low=S.companies.slice().sort(function(a,b){return score(a)-score(b);}).slice(0,3);
+    A.push({id:'w-haul',pr:'High',cat:'Contractors',owner:'You',t:'Send scorecards to the 3 lowest-scoring haulers',
+      why:low.map(function(c){return c.n+' (score '+score(c)+')';}).join(', ')+'.',imp:'responsibility goes back to the employer, not your gate staff',go:{action:'mailAll'},btn:'Send scorecards'});
+    A.push({id:'w-size',pr:'Medium',cat:'Uniform order',owner:'Procurement',t:'Order Summer 2027 from the real size curve',
+      why:bhd(L.dead.v)+' of coveralls and shoes sit in the store in sizes nobody wears.',imp:'about '+bhd(L.dead.rec)+' a year and fewer stock-outs',go:{view:'cost'},btn:'See the numbers'});
+    var peakT=Math.round((HOURS_T[1]+HOURS_T[2]+HOURS_T[3])/sum(HOURS_T)*100),peakR=Math.round((HOURS_R[1]+HOURS_R[2]+HOURS_R[3])/sum(HOURS_R)*100);
+    A.push({id:'w-peak',pr:'Medium',cat:'Gate',owner:'Gate supervisor',t:'Put a second checker on the gate from 06:00 to 09:00',
+      why:'That window brings '+peakT+'% of the trucks but '+peakR+'% of the rejections over the last 30 days.',imp:'faster entry at peak and fewer drivers slipping through',go:{view:'gate'},btn:'Open gate view'});
+    var mt=materialAgg().filter(function(x){return x.code==='sumCov';})[0];
+    A.push({id:'w-mat',pr:'Medium',cat:'Uniform order',owner:'You and Boolanga',t:'Put the summer coverall fabric on the 2027 spec',
+      why:(mt?mt.tot:0)+' heat and skin complaints this season on the current summer coverall.',imp:'fewer rashes and early replacements next summer',go:{view:'requests'},btn:'See the complaints'});
+    A.push({id:'w-lost',pr:'Low',cat:'Leakage',owner:'Safety officers',t:'Review the 10 workers with the most lost items',
+      why:'Lost items cost '+bhd(L.lost.v)+' this year. Every issue is now signed, so repeat losses show per worker.',imp:'about '+bhd(L.lost.rec)+' a year',go:{view:'workforce'},btn:'Open workforce'});
+  }
+  return A.sort(function(a,b){return PR[a.pr]-PR[b.pr];});
+}
+function findAct(id){var all=buildActions('daily').concat(buildActions('weekly'));for(var i=0;i<all.length;i++)if(all[i].id===id)return all[i];return null;}
+
+/* charts */
+function lineChart(){
+  var W=600,H=220,pl=36,pr=14,pt=12,pb=26,min=60,max=100;
+  function x(i){return pl+i*(W-pl-pr)/(WEEKS.length-1);}
+  function y(v){return pt+(max-v)*(H-pt-pb)/(max-min);}
+  function path(a){return a.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1);}).join(' ');}
+  var g='';[60,70,80,90,100].forEach(function(v){g+='<line class="ch-grid" x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y(v)+'" y2="'+y(v)+'"/><text class="ch-lab" x="'+(pl-8)+'" y="'+(y(v)+3.5)+'" text-anchor="end">'+v+'%</text>';});
+  var lab=WEEKS.map(function(w,i){return i%2?'<text class="ch-lab" x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle">'+w+'</text>':'';}).join('');
+  var li=WEEKS.length-1;
+  return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="PPE compliance over 12 weeks: own workforce rising from 84 to 92 percent, landfill users from 71 to 88 percent">'+g+lab+
+    '<path class="ch-ext" d="'+path(SER_EXT)+'"/><path class="ch-emp" d="'+path(SER_EMP)+'"/>'+
+    '<circle class="ch-dot-ext" cx="'+x(li)+'" cy="'+y(SER_EXT[li])+'" r="4"/><circle class="ch-dot-emp" cx="'+x(li)+'" cy="'+y(SER_EMP[li])+'" r="4"/></svg>';
+}
+function bars(){
+  var max=Math.max.apply(null,S.vtypes.map(function(v){return v[1];}));
+  return S.vtypes.map(function(v){return '<div class="bar-row"><span>'+esc(v[0])+'</span><div class="bar"><i class="'+v[2]+'" style="width:'+Math.round(v[1]/max*100)+'%"></i></div><span class="mono">'+v[1]+'</span></div>';}).join('');
+}
+function materialAgg(){
+  var agg=JSON.parse(JSON.stringify(MAT_BASE));
+  S.requests.filter(function(r){return r.type==='Material issue';}).forEach(function(r){agg[r.item]=agg[r.item]||{};agg[r.item][r.reason]=(agg[r.item][r.reason]||0)+1;});
+  return Object.keys(agg).map(function(code){var rs=agg[code];var tot=0;Object.keys(rs).forEach(function(k){tot+=rs[k];});return {code:code,rs:rs,tot:tot};}).sort(function(a,b){return b.tot-a.tot;});
+}
+
+/* views */
+function vOverview(){
+  var m=S.metrics;var pending=S.requests.filter(function(r){return r.st==='Open';}).length;
+  var mat=materialAgg().filter(function(x){return x.code==='sumCov';})[0];
+  var worst=S.companies.slice().sort(function(a,b){return score(a)-score(b);}).slice(0,5);
+  var hr=new Date().getHours();var greet=hr<12?'Good morning':(hr<17?'Good afternoon':'Good evening');
+  var acts=buildActions('daily').filter(function(a){return !S.act.done[a.id];});var cm=costModel();
+  return pageHead('Overview',greet+', Mohamed','Where safety and PPE stand today across your 1,600 workers, the landfill users at the gate, training and worker requests.','<button class="btn ghost" data-view="audit">Open ISO 45001 audit pack</button>')+
+  '<div class="today"><span class="sub">Needs you today</span>'+
+    acts.slice(0,3).map(function(a){return '<button class="chip" data-action="actGo" data-id="'+a.id+'">'+esc(a.t)+'</button>';}).join('')+
+    '<button class="link" data-view="actions">'+(acts.length?'All '+pl(acts.length,'action','actions'):'Open action plan')+'</button>'+
+  '</div>'+
+  '<div class="grid kpis">'+
+    kpi('Leakage this year',bhdK(cm.leak),'avoidable PPE spend, Jan to Nov','bad')+
+    kpi('Kit completeness',m.kit.toFixed(1)+'%','workers holding every required item')+
+    kpi('PPE compliance',m.comp.toFixed(1)+'%','patrol photo checks, last 30 days')+
+    kpi('Landfill users inducted',m.ext.toFixed(1)+'%','of drivers and helpers seen in 30 days')+
+    kpi('Open violations',m.openViol,m.warn30+' warning letters and '+m.ban30+' bans in 30 days',m.openViol>25?'warn':'')+
+    kpi('Worker requests',pending,'waiting for a safety officer',pending?'warn':'')+
+  '</div>'+
+  '<div class="grid two">'+
+    '<div class="card"><div class="card-h"><h3>PPE compliance, last 12 weeks</h3><div class="legend"><span><i style="background:var(--accent)"></i>Own workforce</span><span><i style="background:var(--warn)"></i>Landfill users</span></div></div>'+lineChart()+'</div>'+
+    '<div class="card"><div class="card-h"><h3>Violations by type, last 30 days</h3><div class="legend"><span><i style="background:var(--warn)"></i>Landfill users</span><span><i style="background:var(--accent)"></i>Employees</span></div></div>'+bars()+'</div>'+
+  '</div>'+
+  '<div class="grid three">'+
+    '<div class="card"><div class="card-h"><h3>Landfill users needing attention</h3><button class="link" data-view="gate">Open gate view</button></div>'+
+      worst.map(function(c){var s=score(c);return '<div class="row between flag-row"><span>'+esc(c.n)+'<span class="sub" style="display:block">'+c.v+' violations, '+c.w+' warnings, '+c.b+' bans</span></span><span class="chip '+(s<50?'bad':'warn')+'">Score '+s+'</span></div>';}).join('')+'</div>'+
+    '<div class="card"><h3>Coming up</h3><div style="margin-top:4px">'+
+      '<div class="up"><b>312 items</b> due for replacement in the next 30 days<div class="sub">Mostly gloves, masks and summer vests</div></div>'+
+      '<div class="up"><b>Summer 2027 kit</b> for 1,570 urban-services staff, ordered in January<div class="sub">'+(mat?mat.tot:0)+' material complaints logged on the current summer coverall. <button class="link" data-view="requests">See feedback</button></div></div>'+
+      '<div class="up"><b>ISO 45001 audit</b> in the first week of December<div class="sub">Evidence filed by clause, ready to share. <button class="link" data-view="audit">Open audit pack</button></div></div>'+
+    '</div></div>'+
+    '<div class="card"><div class="card-h"><h3>Activity log</h3><span class="sub">Who did what, when</span></div><div class="feed">'+
+      S.feed.slice(0,8).map(function(f){return '<div class="feed-row"><span class="mono muted">'+f.t+'</span><span>'+esc(f.x)+'</span></div>';}).join('')+'</div></div>'+
+  '</div>'+
+  '<p class="note">Accidents and near misses stay in Urbaser’s group HSE system. This layer covers PPE, site conduct and training, and can pass its data to the group system.</p>';
+}
+
+function vWorkforce(){
+  var bad=S.employees.filter(empBad).length;
+  return pageHead('For safety officers','Workforce and PPE','Every issue, size and replacement date per worker. Replaces the paper form, the data-entry step and the Excel sheet.','<button class="btn ghost" data-action="bulkIssue">Plan the Summer 2027 issue</button>')+
+  '<div class="grid kpis">'+kpi('Workers','1,600','42 sample workers shown below')+kpi('Items issued in 12 months','11,940','each one signed on the tablet')+kpi('Due in the next 30 days','312','officers get reminders')+kpi('Overdue or missing',bad,'in this sample','warn')+'</div>'+
+  '<div class="card"><div class="filters">'+
+    '<input class="input" style="flex:1;min-width:200px" placeholder="Search by name, ID or role" data-input="empq" value="'+esc(S.f.q)+'" aria-label="Search workers">'+
+    '<select class="input" data-input="empct" aria-label="Contract">'+['All contracts','Urban services','Landfill'].map(function(o){return '<option'+(S.f.ct===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select>'+
+    '<select class="input" data-input="empst" aria-label="Kit status">'+['All statuses','Needs action','Complete'].map(function(o){return '<option'+(S.f.st===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select>'+
+  '</div><div class="tbl-wrap" id="empTable">'+empTable()+'</div></div>';
+}
+function empTable(){
+  var q=S.f.q.toLowerCase();
+  var rows=S.employees.filter(function(e){
+    if(S.f.ct!=='All contracts'&&ROLES[e.role].ct!==S.f.ct)return false;
+    if(S.f.st==='Needs action'&&!empBad(e))return false;
+    if(S.f.st==='Complete'&&empBad(e))return false;
+    if(q&&(e.name+' '+e.id+' '+ROLES[e.role].l).toLowerCase().indexOf(q)<0)return false;
+    return true;
+  });
+  if(!rows.length)return '<div class="empty">No workers match these filters. Clear the search to see everyone.</div>';
+  return '<table><thead><tr><th>Worker</th><th>Role</th><th>Zone</th><th>Kit</th><th>Next action</th><th>Violations, 90 days</th></tr></thead><tbody>'+
+  rows.map(function(e){var na=nextAction(e);var v=v90c(e);
+    return '<tr class="click" data-action="openEmp" data-id="'+e.id+'"><td><div style="font-weight:600">'+esc(e.name)+'</div><div class="sub mono">'+e.id+'</div></td><td>'+ROLES[e.role].l+'</td><td>'+e.zone+'</td><td>'+(empBad(e)?'<span class="chip bad">Needs action</span>':'<span class="chip ok">Complete</span>')+'</td><td><span class="'+(na.t==='bad'?'warn-t':na.t==='warn'?'warn-t':'')+'">'+esc(na.x)+'</span></td><td>'+(v?'<span class="chip '+(v>1?'bad':'warn')+'">'+v+'</span>':'<span class="muted">0</span>')+'</td></tr>';
+  }).join('')+'</tbody></table>';
+}
+function empDrawer(e){
+  var r=ROLES[e.role];
+  var kit='<div class="tbl-wrap"><table><thead><tr><th>Item</th><th>Size</th><th>Issued</th><th>Status</th><th></th></tr></thead><tbody>'+
+    e.items.map(function(it){var st=ST[itemStatus(it)];return '<tr><td>'+ITEMS[it.code].n+'</td><td>'+esc(it.sz)+'</td><td>'+(it.issued?fmtS(it.issued)+'<div class="sub">by '+esc(it.by)+'</div>':'<span class="muted">Not yet</span>')+'</td><td><span class="chip '+st[0]+'">'+st[1]+'</span></td><td><button class="btn ghost sm" data-action="issue" data-id="'+e.id+'" data-code="'+it.code+'">Issue new</button></td></tr>';}).join('')+'</tbody></table></div>';
+  var tl=e.viol.length?'<div class="timeline">'+e.viol.slice().reverse().map(function(v){return '<div class="tl"><span class="dot"></span><div><b>'+esc(v.type)+'</b> <span class="sub">'+fmt(v.date)+'</span><div class="sub">'+esc(v.action)+', reported by '+esc(v.by)+'</div></div></div>';}).join('')+'</div>':'<div class="sub">No violations on record.</div>';
+  var trn='<div class="timeline">'+e.tr.slice().reverse().map(function(t){return '<div class="tl '+(t.st==='Done'?'okd':'')+'"><span class="dot"></span><div><b>'+esc(t.m)+'</b> <span class="sub">'+(t.st==='Done'?'Completed '+fmt(t.d)+', score '+t.s:'Assigned '+fmt(t.d))+'</span></div></div>';}).join('')+'</div>';
+  return '<div class="modal-bg" data-action="closeModal"><div class="drawer" role="dialog" aria-label="Worker profile">'+
+    '<div class="row between" style="margin-bottom:18px"><span class="ctx" style="margin:0">Worker profile</span><button class="btn ghost sm" data-action="closeModal">Close</button></div>'+
+    '<div class="row" style="gap:14px;flex-wrap:nowrap;margin-bottom:6px"><div class="avatar lg">'+initials(e.name)+'</div><div><h2>'+esc(e.name)+'</h2><div class="sub">'+e.id+', '+r.l+', '+e.zone+'</div><div class="row" style="margin-top:6px"><span class="chip ok">Face ID enrolled</span><span class="chip">'+r.ct+'</span></div></div></div>'+
+    '<h3 class="section-title">Assigned kit</h3>'+kit+
+    '<h3 class="section-title">Track record</h3>'+tl+
+    '<h3 class="section-title">Training</h3>'+trn+
+  '</div></div>';
+}
+
+function vPatrol(){
+  var p=S.p;var e=p.id?emp(p.id):null;var cur=e&&p.step!=='pick'?Math.min(v90c(e),2):-1;
+  return pageHead('For safety officers and patrollers','Patrol app','A photo check against the PPE that worker’s role requires. The same standard for every worker on every shift, with the track record and the next step on screen.')+
+  '<div class="grid split"><div class="stack">'+
+    '<div class="card"><div class="card-h"><h3>What happens on a violation</h3><span class="chip">Set to your rules</span></div><div class="ladder">'+
+      LADDER_INT.map(function(s,i){return '<div class="step'+(i===cur?' on':'')+'"><span class="n">'+(i+1)+'</span><div><b>'+s.t+'</b><div class="sub">'+s.d+'</div></div></div>';}).join('')+'</div></div>'+
+    '<div class="card"><h3>Why a photo, not just the eye</h3><div class="stack" style="margin-top:10px">'+
+      point('Objective','The AI applies one standard, so there is no argument about what the officer saw')+
+      point('Evidence','Photo, time, place and officer are saved against the worker, ready for the auditor')+
+      point('Right person','Face match confirms the person in the photo is the worker on record')+
+      point('Track record','Repeat offenders are visible the moment they are checked')+
+    '</div></div>'+
+  '</div><div class="phone-wrap">'+patrolPhone()+
+    '<div class="row"><span class="sub">Demo outcome</span><div class="seg">'+[['random','Random'],['miss','Item missing'],['all','All present']].map(function(o){return '<button class="'+(p.outcome===o[0]?'on':'')+'" data-action="pOutcome" data-k="'+o[0]+'">'+o[1]+'</button>';}).join('')+'</div></div>'+
+  '</div></div>';
+}
+function patrolPhone(){
+  var p=S.p;var e=p.id?emp(p.id):null;var h='',b='';
+  if(p.step==='pick'||!e){
+    h='<div class="sub">Patrol app, K. Thapa</div><b>Check a worker</b>';
+    b='<button class="btn block" data-action="pScan">Scan worker ID card</button><div class="sub" style="text-align:center">or pick from today’s route</div>'+
+      ROUTE.map(function(i){var x=S.employees[i];var v=v90c(x);return '<button class="list-item" data-action="pPick" data-id="'+x.id+'"><span class="row" style="gap:10px;flex-wrap:nowrap"><span class="avatar">'+initials(x.name)+'</span><span><b>'+esc(x.name)+'</b><span class="sub" style="display:block">'+ROLES[x.role].l+', '+x.zone+'</span></span></span>'+(v?'<span class="chip warn">'+v+' in 90 days</span>':'')+'</button>';}).join('');
+  } else {
+    var r=ROLES[e.role];var v=v90c(e);
+    h='<div class="row" style="gap:10px;flex-wrap:nowrap"><span class="avatar">'+initials(e.name)+'</span><div style="min-width:0"><b>'+esc(e.name)+'</b><div class="sub">'+e.id+', '+r.l+'</div></div></div>';
+    if(p.step==='photo'){
+      b='<div class="photo">Camera</div><div class="sub">Required for this role: '+r.chk.join(', ').toLowerCase()+'</div><button class="btn block" data-action="pShoot">Take photo</button><button class="btn ghost block" data-action="pReset">Back</button>';
+    } else if(p.step==='scan'){
+      b='<div class="photo scan">Matching face to profile</div><div class="sub" style="text-align:center">Checking '+r.chk.length+' required PPE items</div>';
+    } else if(p.step==='result'){
+      var miss=p.missing;
+      b='<div class="photo done"><span class="chip ok">Face match 98%</span></div><div>'+
+        r.chk.map(function(c){return '<div class="check-row"><span>'+c+'</span>'+(miss.indexOf(c)>=0?'<span class="chip bad">Not detected</span>':'<span class="chip ok">Detected</span>')+'</div>';}).join('')+'</div>';
+      if(miss.length){
+        var step=Math.min(v,2);var s=LADDER_INT[step];
+        var opts=miss.map(function(m){return 'PPE: '+m.toLowerCase()+' not worn';}).concat(['PPE: worn incorrectly','Conduct: unsafe road crossing']);
+        var hist=e.viol.filter(function(x){return daysSince(x.date)<=90;});
+        b+='<div class="status-banner bad">'+miss.length+' required item missing</div>'+
+          '<div><label class="lbl" for="pType">Violation</label><select id="pType" class="input" style="width:100%" data-input="pType">'+opts.map(function(o){return '<option'+(o===p.type?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select></div>'+
+          '<div class="mini-card"><div class="sub" style="margin-bottom:4px">Track record, last 90 days</div>'+(hist.length?hist.map(function(x){return '<div><span class="mono">'+fmtS(x.date)+'</span> '+esc(x.type)+'</div>';}).join(''):'<div>No violations</div>')+'</div>'+
+          '<div class="mini-card acc"><div class="sub">Violation '+(v+1)+' in 90 days, so step '+(step+1)+'</div><b>'+s.t+'</b><div class="sub">'+s.d+'</div></div>'+
+          '<button class="btn block" data-action="pSubmit">Submit report</button>';
+      } else {
+        b+='<div class="status-banner ok">All required PPE present</div><button class="btn block" data-action="pSubmitOk">Save compliant check</button>';
+      }
+      b+='<button class="btn ghost block" data-action="pReset">Discard</button>';
+    } else if(p.step==='done'){
+      b='<div class="done-mark">✓</div><h3 style="text-align:center">'+(p.lastViol?'Violation reported':'Compliant check saved')+'</h3><div class="stack sub" style="gap:6px">'+
+        (p.lastViol?p.doneList:['Photo evidence stored','Counts toward today’s compliance rate']).map(function(x){return '<div>✓ '+x+'</div>';}).join('')+'</div>'+
+        '<button class="btn block" data-action="pReset">Check another worker</button><button class="btn ghost block" data-action="openEmp" data-id="'+e.id+'">Open worker profile</button>';
+    }
+  }
+  return '<div class="phone"><div class="phone-bar"></div><div class="app-h">'+h+'</div><div class="app-body">'+b+'</div></div>';
+}
+
+function vGate(){
+  var m=S.metrics;var d=S.g.found?drv(S.g.found):null;var cur=d?Math.min(d.viol.length,2):-1;
+  return pageHead('For the gate, patrol and control room','Askar Landfill gate','About 1,000 user companies and 500 to 600 trucks in 16 operating hours. Drivers and helpers need no app and no account. Your staff record everything against the CPR on a tablet.')+
+  '<div class="grid kpis">'+kpi('Gate checks today',m.gateToday,'CPR scanned at entry')+kpi('Rejected at the gate today',m.rejToday,'no PPE, sent back','warn')+kpi('Users inducted, 30 days','1,284','video and quiz, signed digitally')+kpi('Active bans',m.banned,'CPRs blocked at the gate','bad')+'</div>'+
+  '<div class="grid two"><div class="card">'+gateTablet()+'</div><div class="stack">'+
+    '<div class="card"><div class="card-h"><h3>Your ladder, on a tablet</h3><span class="chip">As you run it today</span></div><div class="ladder">'+
+      LADDER_EXT.map(function(s,i){return '<div class="step'+(i===cur?' on':'')+'"><span class="n">'+(i+1)+'</span><div><b>'+s.t+'</b><div class="sub">'+s.d+'</div></div></div>';}).join('')+'</div></div>'+
+    '<div class="card"><div class="card-h"><h3>Gate log</h3><span class="sub">Today</span></div><div class="feed">'+
+      S.gateLog.slice(0,7).map(function(l){var x=drv(l.c);return '<div class="feed-row"><span class="mono muted">'+l.t+'</span><span><span class="mono">'+mask(l.c)+'</span> '+(x?esc(x.co):'')+': '+esc(l.x)+'</span></div>';}).join('')+'</div></div>'+
+  '</div></div>'+
+  '<div class="card" style="margin-bottom:16px">'+throughput()+'</div>'+
+  '<div class="card">'+scorecard()+'</div>';
+}
+function throughput(){
+  var mx=Math.max.apply(null,HOURS_T),tT=sum(HOURS_T),tR=sum(HOURS_R);
+  function st(v,l){return '<div class="stat"><b>'+v+'</b><span>'+l+'</span></div>';}
+  var bars=HOURS_T.map(function(t,i){var rate=HOURS_R[i]/(t*30)*100;var h=String(5+i).padStart(2,'0');
+    return '<div class="hbar" title="'+h+':00, '+t+' trucks a day, '+rate.toFixed(1)+'% rejected"><div class="hcol"><i class="'+(rate>=2.5?'hot':'')+'" style="height:'+Math.round(t/mx*100)+'%"></i></div><span>'+h+'</span></div>';}).join('');
+  return '<div class="card-h"><div><h3>Throughput at the weighbridge</h3><div class="sub">The CPR is scanned while the truck is on the weighbridge, a stop it already makes. No extra stop, no extra queue.</div></div>'+
+    '<div class="legend"><span><i style="background:var(--accent)"></i>Trucks per hour, daily average</span><span><i style="background:var(--warn)"></i>Rejection rate of 2.5% or more</span></div></div>'+
+    '<div class="tp-grid"><div class="tp-stats">'+st('18 s','average check, CPR scan to decision')+st('58','trucks in the busiest hour, 08:00')+st('100%','of entries checked and logged')+st('0 min','added to the queue')+'</div>'+
+    '<div class="hours" role="img" aria-label="Trucks per hour from 05:00 to 20:00, busiest at 08:00, highest rejection rates from 06:00 to 09:00">'+bars+'</div></div>'+
+    '<p class="note">06:00 to 09:00 brings '+Math.round((HOURS_T[1]+HOURS_T[2]+HOURS_T[3])/tT*100)+'% of the trucks but '+Math.round((HOURS_R[1]+HOURS_R[2]+HOURS_R[3])/tR*100)+'% of the rejections, as the night-shift collection trucks come in. A second checker in that window keeps the line moving.</p>';
+}
+function gateTablet(){
+  var g=S.g;
+  var quick=[['870614523','Clear'],['910322871','On watch'],['880917406','Warning issued'],['850205118','Banned'],['930811264','No induction'],['950309841','New driver']];
+  return '<div class="card-h"><h3>Gate and control-room tablet</h3><span class="chip">Officer view</span></div>'+
+  '<div class="row" style="flex-wrap:nowrap"><input id="cprInput" class="input mono" style="flex:1" inputmode="numeric" maxlength="9" placeholder="Scan or type CPR (9 digits)" data-input="gCpr" value="'+esc(g.cpr)+'" aria-label="CPR number"><button class="btn" data-action="gLookup">Look up</button></div>'+
+  '<div class="row" style="margin:10px 0 4px"><span class="sub">Try</span>'+quick.map(function(q){return '<button class="chip" data-action="gQuick" data-cpr="'+q[0]+'">'+q[1]+'</button>';}).join('')+'</div>'+
+  '<div style="margin-top:14px">'+gateResult()+'</div>';
+}
+function gateResult(){
+  var g=S.g;
+  if(!g.looked)return '<div class="empty">Scan the CPR card or type the number to see the driver’s induction, violations and status.</div>';
+  var d=g.found?drv(g.found):null;
+  if(!d){var r=g.reg;
+    return '<div class="status-banner warn">No record for CPR '+mask(g.cpr)+'. First visit, induction needed.</div>'+
+    '<div class="stack" style="margin-top:12px"><div><label class="lbl" for="rgName">Name</label><input id="rgName" class="input" style="width:100%" data-input="rgName" value="'+esc(r.name)+'" placeholder="As on the CPR card"></div>'+
+    '<div class="row" style="align-items:flex-end">'+
+      '<div style="flex:1;min-width:150px"><label class="lbl" for="rgCo">Company</label><select id="rgCo" class="input" style="width:100%" data-input="rgCo">'+S.companies.map(function(c){return '<option'+(c.n===r.co?' selected':'')+'>'+esc(c.n)+'</option>';}).join('')+'</select></div>'+
+      '<div style="flex:1;min-width:120px"><label class="lbl" for="rgNat">Nationality</label><select id="rgNat" class="input" style="width:100%" data-input="rgNat">'+['India','Pakistan','Bangladesh','Nepal','Sri Lanka','Bahrain','Egypt','Uganda','Nigeria'].map(function(o){return '<option'+(o===r.nat?' selected':'')+'>'+o+'</option>';}).join('')+'</select></div>'+
+      '<div style="flex:1;min-width:110px"><label class="lbl" for="rgLang">Induction in</label><select id="rgLang" class="input" style="width:100%" data-input="rgLang">'+['Hindi','Arabic','English'].map(function(o){return '<option'+(o===r.lang?' selected':'')+'>'+o+'</option>';}).join('')+'</select></div>'+
+    '</div><button class="btn" data-action="gRegister">Register and start induction</button></div>';
+  }
+  var st=drvStatus(d);var banned=d.viol.length>=3;
+  var h='<div class="status-banner '+st[0]+'">'+st[1]+'</div>'+
+  '<dl class="dl"><dt>Name</dt><dd>'+esc(d.name)+'</dd><dt>CPR</dt><dd class="mono">'+mask(d.cpr)+'</dd><dt>Company</dt><dd>'+esc(d.co)+'</dd><dt>Nationality</dt><dd>'+esc(d.nat)+', induction in '+esc(d.lang)+'</dd>'+
+  '<dt>Induction</dt><dd>'+(d.ind?fmt(d.ind.d)+', quiz '+d.ind.s+'/9, signed':'<span class="warn-t">None on record</span>')+'</dd></dl>';
+  if(d.viol.length)h+='<div class="sub" style="margin-bottom:6px">Violations</div><div class="timeline">'+d.viol.map(function(v,i){return '<div class="tl"><span class="dot"></span><div><b>'+esc(v.t)+'</b> <span class="sub">'+fmt(v.d)+'</span><div class="sub">Step '+(i+1)+': '+esc(v.a)+'</div></div></div>';}).join('')+'</div>';
+  if(g.msg)h+='<div class="status-banner '+g.msg.tone+'" style="margin-top:10px">'+g.msg.text+'</div>';
+  if(banned)return h+'<p class="sub" style="margin-top:10px">Do not admit. '+esc(d.co)+' was notified automatically.</p>';
+  if(!d.ind)return h+'<button class="btn block" style="margin-top:12px" data-action="gInduct">Send to the control room for induction and quiz</button>';
+  var next=LADDER_EXT[Math.min(d.viol.length,2)];
+  return h+'<div class="row" style="margin-top:12px"><button class="btn ok" data-action="gPass">PPE OK, let in</button><button class="btn bad" data-action="gReject">No PPE, reject</button></div>'+
+  '<div class="mini-card" style="margin-top:14px"><label class="lbl" for="gVtype">Patrol: log an on-site violation</label><div class="row" style="flex-wrap:nowrap"><select id="gVtype" class="input" style="flex:1;min-width:0" data-input="gVtype">'+EXT_V.map(function(t){return '<option'+(t===g.vtype?' selected':'')+'>'+t+'</option>';}).join('')+'</select><button class="btn ghost" data-action="gViol">Log</button></div>'+
+  '<div class="sub" style="margin-top:8px">Next step for this driver: <b>'+next.t+'</b></div></div>';
+}
+function scorecard(){
+  var rows=S.companies.slice().sort(function(a,b){return b.tpd-a.tpd;});
+  return '<div class="card-h"><div><h3>Hauling company scorecard, last 30 days</h3><div class="sub">Every gate check, violation and quiz result rolls up to the employer. 12 of about 1,000 companies shown.</div></div><button class="btn ghost sm" data-action="mailAll">Email monthly reports</button></div>'+
+  '<div class="tbl-wrap"><table><thead><tr><th>Company</th><th>Trucks a day</th><th>Drivers seen</th><th>Inducted</th><th>Violations</th><th>Warnings</th><th>Bans</th><th>Score</th></tr></thead><tbody>'+
+  rows.map(function(c){var s=score(c);return '<tr><td><b>'+esc(c.n)+'</b></td><td class="mono">'+c.tpd+'</td><td class="mono">'+c.seen+'</td><td class="mono">'+c.ind+'%</td><td class="mono">'+c.v+'</td><td class="mono">'+c.w+'</td><td class="mono">'+c.b+'</td><td><span class="chip '+(s>=80?'ok':s>=50?'warn':'bad')+'">'+s+'</span></td></tr>';}).join('')+'</tbody></table></div>';
+}
+function letter(d){
+  var ref='ASK-WL-'+(1000+Math.floor(Math.random()*9000));S.g.letterFor=d.cpr;
+  return '<div class="modal-bg center" data-action="closeModal"><div class="dialog" role="dialog" aria-label="Warning letter">'+
+  '<div class="row between" style="margin-bottom:12px;flex-wrap:nowrap"><div><div class="ctx" style="margin:0">Generated automatically at step 2</div><h2>Warning letter</h2></div><button class="btn ghost sm" data-action="closeModal">Close</button></div>'+
+  '<div class="letter"><div class="letter-h"><b>Urbaser Bahrain, Askar Landfill</b><span class="mono">'+ref+'</span></div>'+
+  '<p>To: Management, '+esc(d.co)+'<br>Date: '+fmt(TODAY)+'</p>'+
+  '<p><b>Safety warning: '+esc(d.name)+', CPR '+mask(d.cpr)+'</b></p>'+
+  '<p>Your driver has recorded two safety violations at Askar Landfill:</p><ul>'+d.viol.map(function(v){return '<li>'+fmt(v.d)+': '+esc(v.t)+'</li>';}).join('')+'</ul>'+
+  '<p>'+(d.ind?'He completed the site induction on '+fmt(d.ind.d)+' (quiz '+d.ind.s+'/9) and signed to follow all safety and operational rules. ':'')+'One more violation will result in a ban from entering Askar Landfill.</p>'+
+  '<p>Please sign and return this letter to confirm the driver has been briefed.</p>'+
+  '<div class="sig"><span>Company signature and stamp</span><span>Date</span></div></div>'+
+  '<div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn ghost" data-action="closeModal">Close</button><button class="btn" data-action="sendLetter">Email to '+esc(d.co)+'</button></div></div></div>';
+}
+
+function vTraining(){
+  return pageHead('For the safety team','Training linked to violations and inductions','One library for inductions, refreshers and campaigns. Every quiz result lands on a person: a CPR for landfill users, a worker profile for employees. Violations assign training automatically.')+
+  '<div class="card"><div class="tbl-wrap"><table><thead><tr><th>Module</th><th>Audience</th><th>Format</th><th>Assigned automatically</th><th>Completed, 30 days</th><th>Pass rate</th></tr></thead><tbody>'+
+    MODULES.map(function(m){return '<tr><td><b>'+m[0]+'</b></td><td>'+m[1]+'</td><td class="sub">'+m[2]+'</td><td class="sub">'+m[3]+'</td><td class="mono">'+m[4]+'</td><td class="mono">'+m[5]+'</td></tr>';}).join('')+'</tbody></table></div></div>'+
+  '<div class="grid two" style="margin-top:16px"><div class="card" id="quiz">'+quizCard()+'</div><div class="card">'+campaigns()+'</div></div>';
+}
+function quizCard(){
+  var q=S.quiz;var d=q.forCpr?drv(q.forCpr):null;var answered=Object.keys(q.ans).length;
+  var h='<div class="card-h"><div><h3>Askar Landfill induction quiz</h3><div class="sub">9 questions, pass mark 6. Sample questions based on your Safe Landfill campaign.</div></div><div class="seg" aria-label="Language">'+['English','العربية','हिन्दी'].map(function(l,i){return '<button class="'+(i===0?'on':'')+'" data-action="qLang">'+l+'</button>';}).join('')+'</div></div>';
+  h+=d?'<div class="status-banner acc">Recording for '+esc(d.name)+', CPR '+mask(d.cpr)+', '+esc(d.co)+'</div>':'<div class="sub">Try it as a driver would. Started from the gate tablet, the result is saved against the CPR.</div>';
+  h+=QUIZ.map(function(x,i){return '<div class="quiz-q"><div style="font-weight:600">'+(i+1)+'. '+x[0]+'</div>'+x[1].map(function(o,j){var cls='';if(q.done){if(j===x[2])cls='right';else if(q.ans[i]===j)cls='wrong';}else if(q.ans[i]===j)cls='sel';return '<button class="opt '+cls+'" data-action="qPick" data-q="'+i+'" data-o="'+j+'">'+o+'</button>';}).join('')+'</div>';}).join('');
+  if(!q.done)return h+'<div class="row between" style="margin-top:14px"><span class="sub">'+answered+' of 9 answered</span><button class="btn" data-action="qSubmit">Submit answers</button></div>';
+  var pass=q.score>=6;
+  return h+'<div class="status-banner '+(pass?'ok':'bad')+'" style="margin-top:14px">'+q.score+'/9. '+(pass?'Passed':'Below the pass mark of 6')+'</div>'+
+    '<div class="sub" style="margin:8px 0 12px">'+(pass?(d?'Saved against the CPR with date, language and digital signature. The driver is clear to enter.':'In use, this is saved against the person with date, language and signature.'):'The driver watches the induction video again and retakes the quiz before entering.')+'</div>'+
+    '<div class="row">'+(!pass?'<button class="btn" data-action="qRetake">Retake quiz</button>':'')+(d?'<button class="btn ghost" data-action="qGate">Back to the gate</button>':(pass?'<button class="btn ghost" data-action="qRetake">Try again</button>':''))+'</div>';
+}
+function campaigns(){
+  var flag=S.companies.slice().sort(function(a,b){return score(a)-score(b);}).slice(0,3);
+  function stat(v,l){return '<div class="stat"><b>'+v+'</b><span>'+l+'</span></div>';}
+  return '<div class="card-h"><h3>Safety campaigns</h3></div>'+
+  '<div class="camp"><div class="row between"><b>Safe Landfill, Safe Lives, Nov 2025</b><span class="chip">From your Google Form</span></div>'+
+    '<div class="stats">'+stat('301','took part')+stat('97.3%','passed (293)')+stat('8','need improvement')+stat('50+','companies')+'</div>'+
+    '<div class="sub">10 days in English, Arabic and Hindi. Results compiled by hand into a report.</div></div>'+
+  '<div class="camp live"><div class="row between"><b>Safe Landfill, Safe Lives, Nov 2026</b><span class="chip acc">Live sample</span></div>'+
+    '<div class="stats">'+stat('268','so far')+stat('96.6%','passed')+stat('41','companies')+stat('Day 6','of 10')+'</div>'+
+    '<div class="bar" style="margin:4px 0 6px"><i style="width:74%"></i></div><div class="sub">74% of active landfill users reached. Every answer is linked to a CPR and a company.</div></div>'+
+  '<div class="sub" style="margin:14px 0 4px">Companies needing attention, flagged automatically</div>'+
+  flag.map(function(c){var s=score(c);return '<div class="row between flag-row"><span>'+esc(c.n)+'</span><span class="chip '+(s<50?'bad':'warn')+'">Score '+s+'</span></div>';}).join('')+
+  '<button class="btn ghost sm" style="margin-top:12px" data-action="campMail">Email a follow-up to these companies</button>';
+}
+
+function vWorker(){
+  var e=emp(S.w.id);
+  return pageHead('For every worker','Worker app','Each worker sees their own uniform and PPE, asks for changes and completes assigned training. Requests go to safety officers, and material complaints are counted per item for the next uniform order.')+
+  '<div class="grid split"><div class="stack">'+
+    '<div class="card"><label class="lbl" for="wPersona">Viewing as</label><select id="wPersona" class="input" style="width:100%" data-input="wPersona">'+WORKER_PERSONAS.map(function(i){var x=S.employees[i];return '<option value="'+x.id+'"'+(x.id===e.id?' selected':'')+'>'+esc(x.name)+', '+ROLES[x.role].l.toLowerCase()+'</option>';}).join('')+'</select></div>'+
+    '<div class="card"><h3>What the worker can do</h3><div class="stack" style="margin-top:10px">'+
+      point('See their kit','Every item, size, issue date and next replacement')+
+      point('Ask for a change','Replacement, size change, lost item, or a material problem such as heat or skin irritation')+
+      point('Do their training','Refreshers assigned after a violation appear here with the quiz')+
+      point('Use any phone','English, Arabic or Hindi. Shared tablets work for workers without a smartphone')+
+    '</div></div>'+
+  '</div><div class="phone-wrap">'+workerPhone(e)+'</div></div>';
+}
+function workerPhone(e){
+  var w=S.w;var b='';
+  if(w.tab==='kit'){
+    b=e.items.map(function(it){var st=ST[itemStatus(it)];var nd=nextDue(it);return '<div class="kit-item"><div class="row between" style="flex-wrap:nowrap;align-items:flex-start"><b>'+ITEMS[it.code].n+'</b><span class="chip '+st[0]+'">'+st[1]+'</span></div><div class="sub">Size '+esc(it.sz)+'. '+(it.issued?'Issued '+fmt(it.issued):'Not issued yet')+(nd?'. Next '+fmtS(nd):'')+'</div></div>';}).join('');
+  } else if(w.tab==='req'){
+    var mine=S.requests.filter(function(r){return r.e===e.id;});
+    b='<div><label class="lbl" for="wType">What do you need?</label><select id="wType" class="input" style="width:100%" data-input="wType">'+Object.keys(REASONS).map(function(k){return '<option'+(k===w.type?' selected':'')+'>'+k+'</option>';}).join('')+'</select></div>'+
+      '<div><label class="lbl" for="wItem">Item</label><select id="wItem" class="input" style="width:100%" data-input="wItem">'+e.items.map(function(it){return '<option value="'+it.code+'"'+(it.code===w.item?' selected':'')+'>'+ITEMS[it.code].n+'</option>';}).join('')+'</select></div>'+
+      '<div><label class="lbl" for="wReason">Reason</label><select id="wReason" class="input" style="width:100%" data-input="wReason">'+REASONS[w.type].map(function(r){return '<option'+(r===w.reason?' selected':'')+'>'+r+'</option>';}).join('')+'</select></div>'+
+      '<div><label class="lbl" for="wNote">Note (optional)</label><textarea id="wNote" class="input" style="width:100%;min-height:64px" data-input="wNote" placeholder="For example: rash on arms after the afternoon shift">'+esc(w.note)+'</textarea></div>'+
+      '<button class="btn block" data-action="wSubmit">Send to safety officer</button>'+
+      '<div class="sub" style="margin-top:4px">My requests</div>'+
+      (mine.length?mine.map(function(r){return '<div class="kit-item"><div class="row between"><b>'+r.type+'</b><span class="chip '+chipFor(r.st)+'">'+r.st+'</span></div><div class="sub">'+ITEMS[r.item].n+', '+esc(r.reason).toLowerCase()+', '+fmtS(r.d)+'</div></div>';}).join(''):'<div class="sub">No requests yet.</div>');
+  } else {
+    b=e.tr.map(function(t,i){return '<div class="kit-item"><div class="row between"><b>'+esc(t.m)+'</b>'+(t.st==='Done'?'<span class="chip ok">Done, '+t.s+'</span>':'<span class="chip warn">Assigned</span>')+'</div><div class="sub">'+(t.st==='Done'?'Completed '+fmt(t.d):'Assigned '+fmt(t.d))+'</div>'+(t.st!=='Done'?'<button class="btn sm" style="margin-top:8px" data-action="wTrain" data-i="'+i+'">Start training</button>':'')+'</div>';}).join('');
+  }
+  return '<div class="phone"><div class="phone-bar"></div><div class="app-h"><div class="row" style="gap:10px;flex-wrap:nowrap"><span class="avatar">'+initials(e.name)+'</span><div><b>'+esc(e.name)+'</b><div class="sub">'+e.id+', '+ROLES[e.role].l+'</div></div></div></div>'+
+  '<div class="mini-tabs">'+[['kit','My kit'],['req','Requests'],['tr','Training']].map(function(t){return '<button class="'+(w.tab===t[0]?'on':'')+'" data-action="wTab" data-k="'+t[0]+'">'+t[1]+'</button>';}).join('')+'</div><div class="app-body">'+b+'</div></div>';
+}
+
+function vRequests(){
+  var open=S.requests.filter(function(r){return r.st==='Open';}).length;
+  var list=S.rf==='open'?S.requests.filter(function(r){return r.st==='Open';}):S.requests;
+  return pageHead('For safety officers','Worker requests','Replacements, size changes, lost items and material complaints from the worker app. Approve, issue from stock, and the worker’s record updates itself.')+
+  '<div class="grid two"><div class="card"><div class="card-h"><h3>'+open+' open</h3><div class="seg">'+[['open','Open'],['all','All']].map(function(o){return '<button class="'+(S.rf===o[0]?'on':'')+'" data-action="rFilter" data-k="'+o[0]+'">'+o[1]+'</button>';}).join('')+'</div></div>'+
+  '<div class="tbl-wrap"><table><thead><tr><th>Request</th><th>Worker</th><th>Item and reason</th><th>Status</th><th></th></tr></thead><tbody>'+
+  (list.length?list.map(reqRow).join(''):'<tr><td colspan="5"><div class="empty">Nothing open. New requests from the worker app land here.</div></td></tr>')+'</tbody></table></div></div>'+
+  '<div class="card">'+materialCard()+'</div></div>';
+}
+function reqRow(r){var e=emp(r.e);
+  return '<tr><td><div class="mono">'+r.id+'</div><div class="sub">'+fmtS(r.d)+'</div></td><td><div style="font-weight:600">'+esc(e.name)+'</div><div class="sub">'+ROLES[e.role].l+'</div></td><td><div><b>'+r.type+'</b>: '+ITEMS[r.item].n+'</div><div class="sub">'+esc(r.reason)+(r.note?'. “'+esc(r.note)+'”':'')+'</div></td><td><span class="chip '+chipFor(r.st)+'">'+r.st+'</span></td><td>'+
+  (r.st==='Open'?'<div class="row" style="flex-wrap:nowrap"><button class="btn sm" data-action="rApprove" data-id="'+r.id+'">'+(r.type==='Material issue'?'Swap item':'Issue')+'</button><button class="btn ghost sm" data-action="rDecline" data-id="'+r.id+'">Decline</button></div>':'')+'</td></tr>';
+}
+function materialCard(){
+  var a=materialAgg();var max=Math.max.apply(null,a.map(function(x){return x.tot;}));
+  return '<div class="card-h"><div><h3>Material feedback by item</h3><div class="sub">Current issue, from worker requests</div></div></div>'+
+  a.map(function(x){return '<div style="margin-bottom:14px"><div class="row between"><b>'+ITEMS[x.code].n+'</b><span class="mono">'+x.tot+'</span></div><div class="bar" style="margin:6px 0"><i style="width:'+Math.round(x.tot/max*100)+'%"></i></div><div class="sub">'+Object.keys(x.rs).map(function(k){return k+' '+x.rs[k];}).join(', ')+'</div></div>';}).join('')+
+  '<p class="note">Take this into the 2027 uniform spec: which item, which complaint, how many workers. Boolanga’s product team designs and sources against it, within your budget.</p>';
+}
+
+/* action plan */
+function vActions(){
+  var mode=S.act.mode,A=buildActions(mode);
+  var open=A.filter(function(a){return !S.act.done[a.id];}),done=A.filter(function(a){return S.act.done[a.id];});
+  var hi=open.filter(function(a){return a.pr==='High';}).length;
+  var lede=mode==='daily'?'Built every morning at 06:00 from yesterday’s gate, patrol, request and training records. Each action says why, who owns it and what it saves.':'Sent every Sunday at 07:00. Leakage to stop, contractors to push, and what to fix before it turns into an audit finding.';
+  var k=mode==='daily'?
+    kpi('Open actions today',open.length,pl(hi,'high priority','high priority'),hi?'warn':'')+kpi('Done today',done.length,'marked done by your team')+kpi('Oldest open request',pl(Math.max.apply(null,[0].concat(S.requests.filter(function(r){return r.st==='Open';}).map(function(r){return daysSince(r.d);}))),'day','days'),'waiting for a safety officer'):
+    kpi('Open actions this week',open.length,pl(hi,'high priority','high priority'),hi?'warn':'')+kpi('Recoverable per year',bhdK(costModel().rec),'if the leakage actions are done')+kpi('Audit gaps',auditData().gaps,'to close before the auditor arrives',auditData().gaps?'warn':'');
+  return pageHead('For you and the safety manager','Action plan',lede,
+    '<div class="seg" role="tablist" aria-label="Plan period">'+[['daily','Today'],['weekly','This week']].map(function(o){return '<button role="tab" aria-selected="'+(mode===o[0])+'" class="'+(mode===o[0]?'on':'')+'" data-action="actMode" data-k="'+o[0]+'">'+o[1]+'</button>';}).join('')+'</div><button class="btn ghost" data-action="mailPlan">Email me this plan</button>')+
+  '<div class="grid kpis">'+k+'</div>'+
+  (open.length?'<div class="stack">'+open.map(actCard).join('')+'</div>':'<div class="empty">Everything on this plan is done. '+(mode==='daily'?'Tomorrow’s actions arrive at 06:00.':'Next week’s plan arrives on Sunday.')+'</div>')+
+  (done.length?'<h3 class="section-title">Done</h3><div class="stack">'+done.map(function(a){return '<div class="act-done"><span>✓ '+esc(a.t)+'</span><button class="btn ghost sm" data-action="actUndo" data-id="'+a.id+'">Undo</button></div>';}).join('')+'</div>':'');
+}
+function actCard(a){
+  var pc=a.pr==='High'?'bad':(a.pr==='Medium'?'warn':'acc');
+  return '<div class="card act pr-'+a.pr.toLowerCase()+'"><div class="act-main">'+
+    '<div class="row" style="gap:6px;margin-bottom:6px"><span class="chip '+pc+'">'+a.pr+' priority</span><span class="chip">'+a.cat+'</span><span class="sub">Owner: '+a.owner+'</span></div>'+
+    '<h3 class="act-t">'+esc(a.t)+'</h3><p class="act-why">'+esc(a.why)+'</p><div class="act-imp"><b>Impact:</b> '+esc(a.imp)+'</div></div>'+
+    '<div class="act-side"><button class="btn sm" data-action="actGo" data-id="'+a.id+'">'+a.btn+'</button><button class="btn ghost sm" data-action="actDone" data-id="'+a.id+'">Mark done</button></div></div>';
+}
+
+/* cost and budget */
+function vCost(){
+  var m=costModel(),over=m.varPct>0;
+  return pageHead('For finance and management','Cost and budget','Where the PPE and uniform budget goes and what leaks out of it. Type your own unit prices and budget below and every figure recalculates.')+
+  '<div class="grid kpis">'+
+    kpi('Budget 2026',bhdK(S.budget),'PPE and uniforms, 1,600 workers')+
+    kpi('Spent, Jan to Nov',bhdK(m.actualYtd),(over?'+':'')+m.varPct.toFixed(1)+'% against the phased budget',over?'warn':'')+
+    kpi('Leakage this year',bhdK(m.leak),Math.round(m.leak/m.actualYtd*100)+'% of spend went on avoidable items','bad')+
+    kpi('Recoverable per year',bhdK(m.rec),'estimate, with the four fixes below')+
+    kpi('Cost per worker',bhdK(m.perWorker),'a year, at the current run rate')+
+    kpi('Admin time saved','944 h','a year, about half a full-time role')+
+  '</div>'+
+  '<div class="grid two">'+
+    '<div class="card"><div class="card-h"><h3>Spend against budget, by month</h3><div class="legend"><span><i style="background:var(--accent)"></i>Actual</span><span><i style="background:var(--muted)"></i>Phased budget</span></div></div>'+budgetChart(m)+
+      '<div class="sub" style="margin-top:8px">Peaks are the summer issue in April and the winter issue in October. Full-year forecast: <b>'+bhd(m.forecast)+'</b> against a budget of '+bhd(S.budget)+'.</div></div>'+
+    '<div class="card"><div class="card-h"><h3>Where it leaks</h3><span class="sub">Jan to Nov</span></div>'+leakList(m)+'</div>'+
+  '</div>'+
+  '<div class="grid two">'+
+    '<div class="card"><div class="card-h"><div><h3>Unit prices and annual need</h3><div class="sub">Sample prices in BHD. Replace them with yours.</div></div><div class="row" style="flex-wrap:nowrap"><label class="lbl" for="budgetIn" style="margin:0">Budget, BHD</label><input id="budgetIn" class="input mono" style="width:110px" inputmode="decimal" data-input="budget" value="'+S.budget+'"></div></div>'+priceTable(m)+'</div>'+
+    '<div class="card"><div class="card-h"><h3>Admin time saved</h3><span class="sub">Hours a year</span></div>'+hoursSaved()+'</div>'+
+  '</div>'+
+  '<p class="note">All figures are sample data from a 1,600-worker model. With your price list, budget and last year’s issue records, this view shows your real numbers.</p>';
+}
+function budgetChart(m){
+  var W=600,H=220,pl0=50,pr=10,pt=12,pb=24,n=MONTHS.length,bw=(W-pl0-pr)/n;
+  var mx=Math.max.apply(null,m.monthsA.concat(m.monthsB))*1.12;
+  function y(v){return pt+(mx-v)*(H-pt-pb)/mx;}
+  var g='';[0,.25,.5,.75,1].forEach(function(f){var v=mx*f;g+='<line class="ch-grid" x1="'+pl0+'" x2="'+(W-pr)+'" y1="'+y(v).toFixed(1)+'" y2="'+y(v).toFixed(1)+'"/><text class="ch-lab" x="'+(pl0-8)+'" y="'+(y(v)+3.5).toFixed(1)+'" text-anchor="end">'+(v>=1000?(v/1000).toFixed(v<10000?1:0)+'k':Math.round(v))+'</text>';});
+  var bars=m.monthsA.map(function(v,i){var x=pl0+i*bw+bw*.18;return '<rect class="ch-bar" x="'+x.toFixed(1)+'" y="'+y(v).toFixed(1)+'" width="'+(bw*.64).toFixed(1)+'" height="'+(y(0)-y(v)).toFixed(1)+'" rx="3"><title>'+MONTHS[i]+': '+bhd(v)+' spent, '+bhd(m.monthsB[i])+' budgeted</title></rect><text class="ch-lab" x="'+(pl0+i*bw+bw/2).toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle">'+MONTHS[i]+'</text>';}).join('');
+  var line=m.monthsB.map(function(v,i){return (i?'L':'M')+(pl0+i*bw+bw/2).toFixed(1)+' '+y(v).toFixed(1);}).join(' ');
+  return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Monthly spend in BHD against the phased budget, January to November">'+g+bars+'<path class="ch-budget" d="'+line+'"/></svg>';
+}
+function leakList(m){
+  var mx=Math.max.apply(null,m.leaks.map(function(x){return x.v;}));
+  return m.leaks.slice().sort(function(a,b){return b.v-a.v;}).map(function(x){
+    return '<div class="leak"><div class="row between" style="flex-wrap:nowrap;align-items:flex-start"><b>'+x.l.t+'</b><span class="mono">'+bhd(x.v)+'</span></div>'+
+      '<div class="bar" style="margin:6px 0"><i class="ext" style="width:'+Math.round(x.v/mx*100)+'%"></i></div>'+
+      '<div class="sub">'+Object.keys(x.l.q).map(function(c){return x.l.q[c].toLocaleString('en-US')+' '+SHORT[c];}).join(', ')+(x.l.note?'. '+x.l.note:'')+'.</div>'+
+      '<div class="sub" style="margin-top:4px"><span class="ok-t">Fix: '+x.l.fix+'.</span> Saves about '+bhd(x.rec)+' a year.</div></div>';
+  }).join('')+'<div class="row between leak-total"><b>Total leakage</b><b class="mono">'+bhd(m.leak)+'</b></div>';
+}
+function priceTable(m){
+  return '<div class="tbl-wrap"><table><thead><tr><th>Item</th><th>Unit price</th><th>Needed a year</th><th>Planned cost</th></tr></thead><tbody>'+
+  m.rows.filter(function(r){return r.q>0;}).map(function(r){return '<tr><td>'+ITEMS[r.c].n+'</td><td><input id="price-'+r.c+'" class="input mono price-in" inputmode="decimal" data-input="price" data-code="'+r.c+'" value="'+S.prices[r.c]+'" aria-label="Unit price in BHD for '+ITEMS[r.c].n+'"></td><td class="mono">'+r.q.toLocaleString('en-US')+'</td><td class="mono">'+bhd(r.v)+'</td></tr>';}).join('')+
+  '<tr><td><b>Planned need for the year</b></td><td></td><td></td><td class="mono"><b>'+bhd(m.planned)+'</b></td></tr></tbody></table></div>';
+}
+function hoursSaved(){
+  var mx=Math.max.apply(null,HOURS_SAVED.map(function(h){return h[2];}));
+  return HOURS_SAVED.map(function(h){return '<div style="margin-bottom:12px"><div class="row between" style="flex-wrap:nowrap;align-items:flex-start"><span>'+h[0]+'</span><b class="mono">'+h[2]+'</b></div><div class="bar" style="margin:6px 0 3px"><i style="width:'+Math.round(h[2]/mx*100)+'%"></i></div><div class="sub">'+h[1]+'</div></div>';}).join('')+
+  '<div class="row between leak-total"><b>Total</b><b class="mono">'+sum(HOURS_SAVED.map(function(h){return h[2];}))+' hours</b></div>';
+}
+
+/* audit pack */
+function vAudit(){
+  var A=auditData();
+  return pageHead('For the safety manager','ISO 45001 audit pack','Evidence pulled from the daily records and filed under the clauses an auditor asks about, covering the last 12 months. Generated in seconds, not collected over weeks.',
+    '<button class="btn ghost" data-action="audDl" data-k="Excel">Download Excel</button><button class="btn" data-action="audDl" data-k="PDF">Download PDF</button>')+
+  '<div class="grid kpis">'+
+    kpi('Evidence readiness',A.ready+'%',A.gaps?pl(A.gaps,'gap','gaps')+' to close before the audit':'no open gaps',A.gaps?'warn':'')+
+    kpi('Records in the pack','41,280','issues, checks, inductions and violations')+
+    kpi('Clauses covered','7','PPE, training, contractors, monitoring')+
+    kpi('Auditor access','Read-only','<button class="link" data-action="audShare">Create a 14-day link</button>')+
+  '</div><div class="stack">'+A.C.map(clauseCard).join('')+'</div>'+
+  '<p class="note">Accidents and near misses remain in Urbaser’s group HSE system. This pack covers PPE, site conduct, contractors and training, and references the group system where relevant.</p>';
+}
+function clauseCard(c){
+  var open=!!S.audOpen[c.c];
+  var st=c.gaps.length?'<span class="chip warn">'+pl(c.gaps.length,'gap','gaps')+'</span>':'<span class="chip ok">Ready</span>';
+  return '<div class="card clause"><button class="clause-h" data-action="audToggle" data-c="'+c.c+'" aria-expanded="'+open+'"><span class="clause-n mono">'+c.c+'</span><span class="clause-t">'+c.t+'</span>'+st+'<span class="sub">'+(open?'Hide':'Show')+' evidence</span></button>'+
+  (open?'<div class="clause-b">'+c.ev.map(function(e){return '<div class="ev"><span>'+e[0]+'</span><span class="sub">'+e[1]+'</span></div>';}).join('')+
+    c.gaps.map(function(g,i){return '<div class="status-banner warn" style="margin-top:10px">'+g.t+' <button class="btn sm" data-action="audFix" data-c="'+c.c+'" data-i="'+i+'">Fix now</button></div>';}).join('')+
+    preview(c.sample)+'</div>':'')+'</div>';
+}
+function preview(k){
+  var h,rows;
+  if(k==='issue'){var recs=[];S.employees.forEach(function(e){e.items.forEach(function(it){if(it.issued)recs.push({e:e,it:it});});});recs.sort(function(a,b){return b.it.issued-a.it.issued;});
+    h=['Date','Worker','Item','Size','Officer','Signature'];rows=recs.slice(0,4).map(function(r){return '<tr><td>'+fmtS(r.it.issued)+'</td><td>'+esc(r.e.name)+'<div class="sub mono">'+r.e.id+'</div></td><td>'+ITEMS[r.it.code].n+'</td><td>'+esc(r.it.sz)+'</td><td>'+esc(r.it.by)+'</td><td><span class="chip ok">Signed</span></td></tr>';});}
+  else if(k==='gate'){h=['CPR','Company','Induction','Violations','Status'];rows=S.drivers.slice(0,5).map(function(d){var s=drvShort(d);return '<tr><td class="mono">'+mask(d.cpr)+'</td><td>'+esc(d.co)+'</td><td>'+(d.ind?fmtS(d.ind.d)+', '+d.ind.s+'/9':'<span class="warn-t">None</span>')+'</td><td class="mono">'+d.viol.length+'</td><td><span class="chip '+(s==='Clear'?'ok':s==='Banned'?'bad':'warn')+'">'+s+'</span></td></tr>';});}
+  else if(k==='matrix'){h=['Role','Workers','Required items'];rows=Object.keys(ROLES).map(function(r){return '<tr><td>'+ROLES[r].l+'</td><td class="mono">'+HEAD[r].toLocaleString('en-US')+'</td><td class="sub">'+ROLES[r].kit.map(function(c){return ITEMS[c].n.toLowerCase();}).join(', ')+'</td></tr>';});}
+  else if(k==='viol'){var vs=[];S.employees.forEach(function(e){e.viol.forEach(function(v){vs.push({d:v.date,w:e.name,t:v.type,a:v.action});});});S.drivers.forEach(function(d){d.viol.forEach(function(v){vs.push({d:v.d,w:d.name+' ('+d.co+')',t:v.t,a:v.a});});});vs.sort(function(a,b){return b.d-a.d;});
+    h=['Date','Person','Violation','Corrective step'];rows=vs.slice(0,5).map(function(v){return '<tr><td>'+fmtS(v.d)+'</td><td>'+esc(v.w)+'</td><td>'+esc(v.t)+'</td><td class="sub">'+esc(v.a)+'</td></tr>';});}
+  else return '';
+  return '<div class="sub" style="margin:16px 0 6px">Sample records from the pack</div><div class="tbl-wrap"><table><thead><tr>'+h.map(function(x){return '<th>'+x+'</th>';}).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
+}
+
+var VIEWS={overview:vOverview,actions:vActions,cost:vCost,workforce:vWorkforce,patrol:vPatrol,gate:vGate,training:vTraining,worker:vWorker,requests:vRequests,audit:vAudit};
+function render(){
+  var tabs=document.querySelectorAll('#tabs button');
+  for(var i=0;i<tabs.length;i++){var on=tabs[i].getAttribute('data-view')===S.view;tabs[i].classList.toggle('active',on);if(on)tabs[i].setAttribute('aria-current','page');else tabs[i].removeAttribute('aria-current');}
+  var main=document.getElementById('main'),ae=document.activeElement,keep=null;
+  if(ae&&ae.id&&main.contains(ae)){keep={id:ae.id};if(ae.tagName==='TEXTAREA'||(ae.tagName==='INPUT'&&ae.type!=='checkbox')){keep.v=ae.value;try{keep.s=ae.selectionStart;keep.e=ae.selectionEnd;}catch(x){}}}
+  main.innerHTML=VIEWS[S.view]();
+  if(keep){var el=document.getElementById(keep.id);if(el){if(keep.v!=null)el.value=keep.v;el.focus({preventScroll:true});if(keep.s!=null){try{el.setSelectionRange(keep.s,keep.e);}catch(x){}}}}
+}
+function refreshDrawer(id){var dr=document.querySelector('.drawer');var sc=dr?dr.scrollTop:0;openModal(empDrawer(emp(id)));var nd=document.querySelector('.drawer');if(nd)nd.scrollTop=sc;}
+
+/* actions */
+var ACT={
+  actMode:function(d){S.act.mode=d.k;render();},
+  actGo:function(d){var a=findAct(d.id);if(a)goTo(a.go);},
+  actDone:function(d){var a=findAct(d.id);S.act.done[d.id]=true;if(a)addFeed('Action done: '+a.t.charAt(0).toLowerCase()+a.t.slice(1));render();toast('Marked done. It shows in the activity log.');},
+  actUndo:function(d){delete S.act.done[d.id];render();},
+  mailPlan:function(){toast(S.act.mode==='daily'?'Sent to mbouhafs@urbaser.com. Today’s plan arrives every morning at 06:00.':'Sent to mbouhafs@urbaser.com. The weekly plan arrives every Sunday at 07:00.');},
+  audToggle:function(d){S.audOpen[d.c]=!S.audOpen[d.c];render();},
+  audFix:function(d){var c=auditData().C.filter(function(x){return x.c===d.c;})[0];if(c&&c.gaps[+d.i])goTo(c.gaps[+d.i].go);},
+  audDl:function(d){toast('Audit pack generated as '+d.k+': 7 clauses, 41,280 records, last 12 months');},
+  audShare:function(){toast('Read-only link for the auditor created. It expires in 14 days and every view is logged.');},
+  signOut:function(){try{sessionStorage.removeItem(AUTH_KEY);}catch(e){}closeModal();lock();},
+  goNeeds:function(){S.f={q:'',ct:'All contracts',st:'Needs action'};S.view='workforce';render();window.scrollTo(0,0);},
+  reset:function(){var v=S.view;initState();S.view=v;closeModal();render();toast('Demo reset to the starting sample');},
+  export:function(){toast('Evidence pack ready: issuance, induction and violation records for the audit period');},
+  closeModal:function(){closeModal();},
+  openEmp:function(d){openModal(empDrawer(emp(d.id)));},
+  issue:function(d){var e=emp(d.id);var it=e.items.filter(function(i){return i.code===d.code;})[0];it.issued=new Date(TODAY);it.by='S. Menon';addFeed('Issued: '+ITEMS[it.code].n.toLowerCase()+' to '+e.name+', signed on tablet');render();refreshDrawer(e.id);toast('Issued and signed. Record updated.');},
+  bulkIssue:function(){toast('Issue plan built from current records: 1,570 kits by zone, with the size curve ready for the supplier');},
+  pScan:function(){var x=S.employees[Math.floor(Math.random()*S.employees.length)];S.p.step='photo';S.p.id=x.id;render();},
+  pPick:function(d){S.p.step='photo';S.p.id=d.id;render();},
+  pOutcome:function(d){S.p.outcome=d.k;render();},
+  pReset:function(){S.p={step:'pick',id:null,missing:[],type:'',outcome:S.p.outcome};render();},
+  pShoot:function(){S.p.step='scan';render();var id=S.p.id;
+    setTimeout(function(){if(S.view!=='patrol'||S.p.step!=='scan'||S.p.id!==id)return;
+      var r=ROLES[emp(id).role];var miss=[];var o=S.p.outcome;
+      if(o==='miss'||(o==='random'&&Math.random()<.55))miss=[r.chk[1+Math.floor(Math.random()*(r.chk.length-1))]];
+      S.p.missing=miss;S.p.type=miss.length?'PPE: '+miss[0].toLowerCase()+' not worn':'';S.p.step='result';render();
+    },1400);},
+  pSubmit:function(){var e=emp(S.p.id);var step=Math.min(v90c(e),2);
+    e.viol.push({date:new Date(TODAY),type:S.p.type,by:'Patroller K. Thapa',action:LADDER_INT[step].t});
+    if(step<2)e.tr.push({m:step===0?'PPE refresher':'Site induction retake',st:'Assigned',d:new Date(TODAY)});
+    S.metrics.openViol++;S.metrics.comp=Math.max(0,S.metrics.comp-0.1);
+    bump(S.p.type.indexOf('road crossing')>=0?'Employees: unsafe road crossing':'Employees: PPE item missing');
+    addFeed('Patrol: '+S.p.type+', '+e.name+' ('+e.id+'), step '+(step+1)+': '+LADDER_INT[step].t.toLowerCase());
+    S.p.lastViol=true;S.p.doneList=DONE_INT[step];S.p.step='done';render();},
+  pSubmitOk:function(){var e=emp(S.p.id);S.metrics.comp=Math.min(99.9,S.metrics.comp+0.05);addFeed('Patrol: '+e.name+' ('+e.id+') photo check, all PPE present');S.p.lastViol=false;S.p.step='done';render();},
+  gLookup:function(){var c=S.g.cpr;if(c.length!==9){toast('A CPR number has 9 digits');return;}
+    S.g.looked=true;S.g.msg=null;var d=drv(c);S.g.found=d?d.cpr:null;
+    if(!d)S.g.reg={name:'',co:S.companies[0].n,nat:'India',lang:'Hindi'};render();},
+  gQuick:function(d){S.g.cpr=d.cpr;ACT.gLookup();},
+  gPass:function(){var d=drv(S.g.found);S.metrics.gateToday++;addGate(d.cpr,'Passed PPE check');addFeed('Gate: CPR '+mask(d.cpr)+' ('+d.co+') passed the PPE check');S.g.msg={tone:'ok',text:'Let in. Check saved with the time and the officer.'};render();},
+  gReject:function(){var d=drv(S.g.found);S.metrics.rejToday++;bump('No PPE at gate (rejected)');addGate(d.cpr,'Rejected: no PPE');addFeed('Gate: CPR '+mask(d.cpr)+' ('+d.co+') rejected, no PPE');S.g.msg={tone:'bad',text:'Rejected until proper PPE is worn. Recorded against the CPR and '+esc(d.co)+'.'};render();},
+  gViol:function(){var d=drv(S.g.found);var step=Math.min(d.viol.length,2);var co=company(d.co);
+    var acts=['Control-room induction and quiz','Warning letter sent to '+d.co,'Banned from Askar Landfill'];
+    d.viol.push({d:new Date(TODAY),t:S.g.vtype,a:acts[step]});
+    if(co)co.v++;S.metrics.openViol++;bump(S.g.vtype);addGate(d.cpr,'Violation: '+S.g.vtype);
+    addFeed('Patrol: CPR '+mask(d.cpr)+' ('+d.co+'), '+S.g.vtype.toLowerCase()+'. Step '+(step+1)+': '+acts[step].toLowerCase());
+    if(step===0){S.g.msg={tone:'warn',text:'Step 1: send the driver to the control room. <button class="btn sm" data-action="gInduct">Run induction now</button>'};render();}
+    else if(step===1){if(co)co.w++;S.metrics.warn30++;S.g.msg={tone:'warn',text:'Step 2: warning letter generated for '+esc(d.co)+'.'};render();openModal(letter(d));}
+    else{if(co)co.b++;S.metrics.ban30++;S.metrics.banned++;S.g.msg=null;render();toast('Step 3: CPR '+mask(d.cpr)+' is banned and '+d.co+' has been notified');}},
+  gInduct:function(){var c=S.g.found;S.quiz={ans:{},done:false,score:0,forCpr:c};S.view='training';render();
+    setTimeout(function(){var q=document.getElementById('quiz');if(q)q.scrollIntoView({behavior:'smooth',block:'start'});},40);},
+  gRegister:function(){var r=S.g.reg;if(!r.name.trim()){toast('Add the driver’s name as shown on the CPR card');var n=document.getElementById('rgName');if(n)n.focus();return;}
+    S.drivers.push({cpr:S.g.cpr,name:r.name.trim(),co:r.co,nat:r.nat,lang:r.lang,ind:null,viol:[]});S.g.found=S.g.cpr;
+    addGate(S.g.cpr,'Registered, sent to induction');addFeed('Gate: new driver registered, CPR '+mask(S.g.cpr)+' ('+r.co+')');ACT.gInduct();},
+  sendLetter:function(){var d=drv(S.g.letterFor);closeModal();addFeed('Warning letter emailed to '+d.co+' for CPR '+mask(d.cpr));toast('Emailed to '+d.co+'. A copy is saved on the driver’s record.');},
+  mailAll:function(){toast('Monthly scorecards emailed to each hauling company');},
+  campMail:function(){toast('Follow-up emailed to 3 companies with the names of drivers who need retraining');},
+  qPick:function(d){if(S.quiz.done)return;S.quiz.ans[+d.q]=+d.o;render();},
+  qSubmit:function(){var q=S.quiz;if(Object.keys(q.ans).length<QUIZ.length){toast('Answer all 9 questions first');return;}
+    var s=0;QUIZ.forEach(function(x,i){if(q.ans[i]===x[2])s++;});q.score=s;q.done=true;
+    if(q.forCpr){var d=drv(q.forCpr);if(s>=6){d.ind={d:new Date(TODAY),s:s};S.metrics.ext=Math.min(99.9,S.metrics.ext+0.1);addGate(d.cpr,'Induction passed '+s+'/9');addFeed('Induction quiz passed '+s+'/9, CPR '+mask(d.cpr)+', in '+d.lang);}
+      else{addGate(d.cpr,'Induction quiz '+s+'/9, video to be watched again');}}
+    render();},
+  qRetake:function(){S.quiz.ans={};S.quiz.done=false;S.quiz.score=0;render();var q=document.getElementById('quiz');if(q)q.scrollIntoView({block:'start'});},
+  qGate:function(){var c=S.quiz.forCpr;S.quiz={ans:{},done:false,score:0,forCpr:null};S.view='gate';S.g.cpr=c;S.g.looked=true;S.g.found=c;S.g.msg=null;render();window.scrollTo(0,0);},
+  qLang:function(){toast('This demo shows English. In use, the same quiz runs in Arabic and Hindi, and other languages can be added.');},
+  wTab:function(d){S.w.tab=d.k;render();},
+  wSubmit:function(){var e=emp(S.w.id);S.reqSeq++;var id='R-'+(2048+S.reqSeq);
+    S.requests.unshift({id:id,e:e.id,type:S.w.type,item:S.w.item,reason:S.w.reason,note:S.w.note.trim(),d:new Date(TODAY),st:'Open'});
+    addFeed('Request '+id+' from '+e.name+': '+ITEMS[S.w.item].n.toLowerCase()+', '+S.w.reason.toLowerCase());S.w.note='';render();toast('Request '+id+' sent to the safety officers');},
+  wTrain:function(d){var e=emp(S.w.id);var t=e.tr[+d.i];t.st='Done';t.s='5/5';t.d=new Date(TODAY);addFeed('Training: '+e.name+' completed '+t.m.toLowerCase()+', 5/5');render();toast('Training completed and saved to the worker’s record');},
+  rFilter:function(d){S.rf=d.k;render();},
+  rApprove:function(d){var r=S.requests.filter(function(x){return x.id===d.id;})[0];var e=emp(r.e);
+    r.st=r.type==='Material issue'?'Alternative issued':'Issued';
+    var it=e.items.filter(function(i){return i.code===r.item;})[0];
+    if(it){it.issued=new Date(TODAY);it.by='S. Menon';if(r.type==='Size change'&&it.sz!=='One size'&&SIZES.indexOf(it.sz)>=0){var k=SIZES.indexOf(it.sz)+(r.reason==='Too small'?1:-1);it.sz=SIZES[Math.max(0,Math.min(SIZES.length-1,k))];}}
+    addFeed(r.id+' approved: '+ITEMS[r.item].n.toLowerCase()+' issued to '+e.name);render();toast(r.id+' approved. '+e.name+'’s record is updated.');},
+  rDecline:function(d){var r=S.requests.filter(function(x){return x.id===d.id;})[0];r.st='Declined';addFeed(r.id+' declined');render();toast(r.id+' declined. The worker sees the update in their app.');}
+};
+var INP={
+  empq:function(v){S.f.q=v;document.getElementById('empTable').innerHTML=empTable();},
+  empct:function(v){S.f.ct=v;document.getElementById('empTable').innerHTML=empTable();},
+  empst:function(v){S.f.st=v;document.getElementById('empTable').innerHTML=empTable();},
+  gCpr:function(v,el){var c=v.replace(/\D/g,'').slice(0,9);S.g.cpr=c;if(el.value!==c)el.value=c;},
+  gVtype:function(v){S.g.vtype=v;},
+  price:function(v,el){var n=parseFloat(String(v).replace(',','.'));if(isNaN(n)||n<0)return;S.prices[el.getAttribute('data-code')]=n;render();},
+  budget:function(v){var n=parseFloat(String(v).replace(/[^0-9.]/g,''));if(isNaN(n)||n<=0)return;S.budget=n;render();},
+  rgName:function(v){S.g.reg.name=v;},rgCo:function(v){S.g.reg.co=v;},rgNat:function(v){S.g.reg.nat=v;},rgLang:function(v){S.g.reg.lang=v;},
+  pType:function(v){S.p.type=v;},
+  wPersona:function(v){S.w.id=v;S.w.item=emp(v).items[0].code;render();},
+  wType:function(v){S.w.type=v;S.w.reason=REASONS[v][0];render();},
+  wItem:function(v){S.w.item=v;},wReason:function(v){S.w.reason=v;},wNote:function(v){S.w.note=v;}
+};
+
+document.addEventListener('click',function(ev){
+  var t=ev.target.closest('[data-view],[data-action]');if(!t)return;
+  if(t.hasAttribute('data-view')&&!t.hasAttribute('data-action')){closeModal();S.view=t.getAttribute('data-view');render();window.scrollTo(0,0);return;}
+  if(t.classList.contains('modal-bg')&&ev.target!==t)return;
+  var f=ACT[t.getAttribute('data-action')];if(f){ev.preventDefault();f(t.dataset,t,ev);}
+});
+document.addEventListener('input',function(ev){var k=ev.target.getAttribute&&ev.target.getAttribute('data-input');if(k&&INP[k])INP[k](ev.target.value,ev.target);});
+document.addEventListener('keydown',function(ev){
+  if(ev.key==='Escape'&&document.getElementById('modal').innerHTML)closeModal();
+  if(ev.key==='Enter'&&ev.target.id==='cprInput'){ev.preventDefault();ACT.gLookup();}
+});
+
+/* sign-in: credentials are compared as a SHA-256 hash, never stored in plain text */
+var AUTH='697072812aa29ca9b11ce74c3ae33cdacf2f0dc3fb0e2d945df2c6df794fa329';
+var AUTH_KEY='ub_ws_session';
+function sha256(ascii){
+  function rr(v,a){return (v>>>a)|(v<<(32-a));}
+  var mp=Math.pow,maxWord=mp(2,32),result='',words=[],bitLen=ascii.length*8,hash=[],k=[],pc=0,comp={},i,j;
+  for(var c=2;pc<64;c++){if(!comp[c]){for(i=0;i<313;i+=c)comp[i]=c;hash[pc]=(mp(c,.5)*maxWord)|0;k[pc++]=(mp(c,1/3)*maxWord)|0;}}
+  ascii+='\x80';while(ascii.length%64-56)ascii+='\x00';
+  for(i=0;i<ascii.length;i++){j=ascii.charCodeAt(i);if(j>>8)return '';words[i>>2]|=j<<((3-i)%4)*8;}
+  words[words.length]=((bitLen/maxWord)|0);words[words.length]=bitLen;
+  for(j=0;j<words.length;){var w=words.slice(j,j+=16),old=hash;hash=hash.slice(0,8);
+    for(i=0;i<64;i++){var w15=w[i-15],w2=w[i-2],a=hash[0],e=hash[4];
+      var t1=hash[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]+(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
+      var t2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash=[(t1+t2)|0].concat(hash);hash[4]=(hash[4]+t1)|0;}
+    for(i=0;i<8;i++)hash[i]=(hash[i]+old[i])|0;}
+  for(i=0;i<8;i++){for(j=3;j+1;j--){var b=(hash[i]>>(j*8))&255;result+=((b<16)?0:'')+b.toString(16);}}
+  return result;
+}
+function unlock(){document.body.classList.remove('locked');S.view='overview';render();window.scrollTo(0,0);}
+function lock(){document.body.classList.add('locked');var p=document.getElementById('lgPass');p.value='';document.getElementById('lgErr').textContent='';window.scrollTo(0,0);document.getElementById('lgEmail').focus();}
+document.getElementById('pwToggle').addEventListener('click',function(){var p=document.getElementById('lgPass');var show=p.type==='password';p.type=show?'text':'password';this.textContent=show?'Hide':'Show';this.setAttribute('aria-label',show?'Hide password':'Show password');});
+function doLogin(){
+  var em=document.getElementById('lgEmail').value.trim().toLowerCase(),pw=document.getElementById('lgPass').value,err=document.getElementById('lgErr'),btn=document.getElementById('lgBtn');
+  err.textContent='';
+  if(!em||!pw){err.textContent='Enter your work email and password.';return;}
+  btn.disabled=true;btn.textContent='Signing in';
+  setTimeout(function(){
+    btn.disabled=false;btn.textContent='Sign in';
+    if(sha256(em+'|'+pw)===AUTH){try{sessionStorage.setItem(AUTH_KEY,AUTH);}catch(e){}document.getElementById('lgPass').value='';unlock();}
+    else{err.textContent='That email and password don’t match. Check the details Boolanga sent you.';var p=document.getElementById('lgPass');p.value='';p.focus();}
+  },450);
+}
+document.getElementById('lgBtn').addEventListener('click',doLogin);
+['lgEmail','lgPass'].forEach(function(id){document.getElementById(id).addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();doLogin();}});});
+
+initState();
+var hasSession=false;try{hasSession=sessionStorage.getItem(AUTH_KEY)===AUTH;}catch(e){}
+if(hasSession)unlock();else{render();document.getElementById('lgEmail').focus();}
+})();
+</script>
+</body>
+</html>
